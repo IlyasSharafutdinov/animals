@@ -29,6 +29,12 @@
 
   Until a file exists, a clean placeholder frame shows the expected
   filename instead — nothing breaks.
+
+  Photos are scaled to fit fully inside the frame without cropping
+  (object-fit: contain). If you'd rather have the photo fill the
+  whole frame edge-to-edge and crop what doesn't fit, find
+  ".photo-frame img" in the CSS below and change object-fit:contain
+  to object-fit:cover.
 =====================================================================
 -->
 
@@ -433,7 +439,9 @@
   .photo-frame{
     position:relative;
     width:100%;
-    aspect-ratio:4/5;
+    height:56vh;
+    max-height:540px;
+    min-height:320px;
     overflow:hidden;
     background:transparent;
     opacity:0;
@@ -449,7 +457,7 @@
     inset:0;
     width:100%;
     height:100%;
-    object-fit:cover;
+    object-fit:contain;
   }
   .photo-frame .media-placeholder{border-radius:16px;}
 
@@ -536,6 +544,7 @@
   @media (max-width: 900px){
     .animal-grid{grid-template-columns:1fr; gap:2rem;}
     .image-block{order:-1;}
+    .photo-frame{height:38vh; min-height:240px;}
     .animal-slide.img-right .photo-frame,
     .animal-slide.img-left  .photo-frame{transform:translateY(30px);}
     .animal-slide.in-view .photo-frame{transform:translateY(0);}
@@ -597,7 +606,7 @@
   <section class="slide animal-slide img-right" id="turtles">
     <div class="media-frame">
       <div class="media-placeholder"><span>images/section-bg-turtles.png</span></div>
-      <img src="turtlebg.webp" alt="" onerror="this.style.opacity=0">
+      <img src="images/section-bg-turtles.png" alt="" onerror="this.style.opacity=0">
     </div>
     <div class="animal-grid">
       <div class="text-block">
@@ -610,10 +619,10 @@
           <div class="stat"><span class="num">6</span><span class="lbl">turtle species</span></div>
         </div>
       </div>
-           <div class="image-block">
+      <div class="image-block">
         <div class="photo-frame">
           <div class="media-placeholder"><span>images/turtle.png</span></div>
-          <img src="10717805.png" alt="Sea turtle" onerror="this.style.opacity=0">
+          <img src="images/turtle.png" alt="Sea turtle" onerror="this.style.opacity=0">
         </div>
       </div>
     </div>
