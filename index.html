@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ark — Animal Rescue Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!--
+=====================================================================
+  HOW TO ADD YOUR OWN IMAGES
+=====================================================================
+  Create a folder named "images" next to this index.html file and
+  drop in files with EXACTLY these names (png assumed — if you use
+  jpg/webp, just edit the matching src="images/..." path below):
+
+  BACKGROUNDS (subtle, optional):
+    images/hero-bg.png
+    images/section-bg-turtles.png
+    images/section-bg-dogs.png
+    images/section-bg-penguins.png
+
+  FEATURED ANIMAL PHOTOS (one large photo per slide):
+    images/turtle.png
+    images/dog.png
+    images/penguin.png
+
+  Until a file exists, a clean placeholder frame shows the expected
+  filename instead — nothing breaks.
+=====================================================================
+-->
+
+<style>
+  :root{
+    --paper:#FAF8F3;
+    --paper-soft:#F3F0E8;
+    --ink:#232821;
+    --ink-soft:#5B6259;
+    --line:rgba(35,40,33,0.12);
+
+    --turtle-tint:#E4F1EC;
+    --turtle-line:#BFDDD2;
+    --turtle-deep:#5C9483;
+
+    --dog-tint:#FBEDDD;
+    --dog-line:#EFD2A8;
+    --dog-deep:#C08A45;
+
+    --penguin-tint:#E6EEF2;
+    --penguin-line:#C3D8E1;
+    --penguin-deep:#5C8496;
+
+    --coral:#E4785B;
+    --coral-dark:#CF6647;
+
+    --font-display:'Fraunces', serif;
+    --font-body:'Work Sans', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+
+    --ease-slide: cubic-bezier(.16,.84,.44,1);
+    --ease-text: cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:var(--font-body);
+    font-weight:400;
+    color:var(--ink);
+    background:var(--paper);
+    overflow-x:hidden;
+  }
+
+  .scroller{
+    height:100vh;
+    overflow-y:scroll;
+    scroll-snap-type:y mandatory;
+  }
+
+  section.slide{
+    min-height:100vh;
+    scroll-snap-align:start;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:8vh 6vw;
+    overflow:hidden;
+  }
+
+  h1,h2,h3{
+    font-family:var(--font-display);
+    font-weight:500;
+    line-height:1.08;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+
+  p{line-height:1.65; color:var(--ink-soft); font-weight:300;}
+  a{color:inherit;text-decoration:none;}
+
+  /* ---------------- TOP BAR ---------------- */
+
+  .top-bar{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:1.5rem 2.4rem;
+  }
+
+  .wordmark{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:1.05rem;
+    letter-spacing:0.02em;
+    color:var(--ink);
+  }
+
+  .wordmark span{
+    display:block;
+    font-family:var(--font-mono);
+    font-weight:400;
+    font-size:0.6rem;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    margin-top:0.15rem;
+  }
+
+  .top-nav{
+    display:flex;
+    gap:1.8rem;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+
+  .top-nav button{
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    font-family:inherit;
+    font-size:inherit;
+    letter-spacing:inherit;
+    text-transform:inherit;
+    cursor:pointer;
+    padding:0.2rem 0;
+    border-bottom:1px solid transparent;
+    transition:border-color .25s ease, color .25s ease;
+  }
+  .top-nav button:hover,
+  .top-nav button:focus-visible,
+  .top-nav button.active{color:var(--ink);border-color:var(--ink);}
+
+  /* ---------------- DOT NAV ---------------- */
+
+  .dot-nav{
+    position:fixed;
+    right:1.6rem;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:50;
+    display:flex;
+    flex-direction:column;
+    gap:0.9rem;
+  }
+
+  .dot-nav button{
+    width:8px;height:8px;
+    border-radius:50%;
+    border:1.5px solid var(--ink-soft);
+    background:transparent;
+    cursor:pointer;
+    padding:0;
+    transition:transform .25s ease, background .25s ease, border-color .25s ease;
+  }
+  .dot-nav button.active{
+    background:var(--ink);
+    border-color:var(--ink);
+    transform:scale(1.3);
+  }
+
+  /* ---------------- MEDIA / PLACEHOLDER SYSTEM ---------------- */
+
+  .media-frame{
+    position:absolute;
+    inset:0;
+    z-index:0;
+  }
+
+  .media-placeholder{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    background:
+      repeating-linear-gradient(45deg, rgba(35,40,33,0.035) 0 2px, transparent 2px 14px);
+    border:1px dashed var(--line);
+  }
+
+  .media-placeholder span{
+    padding:0.4rem 0.9rem;
+    border:1px solid var(--line);
+    border-radius:100px;
+    background:var(--paper);
+  }
+
+  .media-frame img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:1;
+    transition:opacity .3s ease;
+  }
+
+  /* ---------------- HERO ---------------- */
+
+  .hero{
+    justify-content:flex-end;
+    background:linear-gradient(180deg, var(--turtle-tint) 0%, var(--paper) 60%);
+  }
+
+  .hero .media-frame{opacity:0.5;}
+
+  .hero-content{
+    position:relative;
+    z-index:2;
+    max-width:760px;
+  }
+
+  .hero-eyebrow{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--turtle-deep);
+    margin-bottom:1.2rem;
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+  }
+  .hero-eyebrow::before{
+    content:"";
+    width:26px;height:1px;
+    background:var(--turtle-deep);
+  }
+
+  .hero h1{
+    font-size:clamp(2.2rem, 5.2vw, 4.2rem);
+    margin-bottom:1.3rem;
+    font-weight:500;
+  }
+
+  .hero p{
+    font-size:clamp(1rem, 1.2vw, 1.1rem);
+    max-width:520px;
+    margin-bottom:2.2rem;
+  }
+
+  .cta-row{display:flex;gap:0.9rem;flex-wrap:wrap;align-items:center;}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    padding:0.8rem 1.6rem;
+    border-radius:100px;
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+
+  .btn-solid{background:var(--coral);color:#fff;}
+  .btn-solid:hover{background:var(--coral-dark);}
+
+  .btn-ghost{border-color:var(--line);color:var(--ink);background:transparent;}
+  .btn-ghost:hover{border-color:var(--ink);}
+
+  .scroll-cue{
+    position:absolute;
+    bottom:2.2rem;
+    left:6vw;
+    z-index:2;
+    font-family:var(--font-mono);
+    font-size:0.65rem;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    text-transform:uppercase;
+  }
+  .scroll-cue::after{
+    content:"";
+    width:1px;height:26px;
+    background:var(--ink-soft);
+    animation:cue 1.8s ease-in-out infinite;
+  }
+  @keyframes cue{
+    0%{transform:scaleY(0);transform-origin:top;}
+    50%{transform:scaleY(1);transform-origin:top;}
+    51%{transform:scaleY(1);transform-origin:bottom;}
+    100%{transform:scaleY(0);transform-origin:bottom;}
+  }
+
+  /* ---------------- ANIMAL SPLIT SLIDES ---------------- */
+
+  #turtles{background:var(--turtle-tint);}
+  #dogs{background:var(--dog-tint);}
+  #penguins{background:var(--penguin-tint);}
+
+  .animal-slide .media-frame{opacity:0.35;}
+
+  .animal-grid{
+    position:relative;
+    z-index:2;
+    max-width:1180px;
+    margin:0 auto;
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(2rem, 6vw, 5.5rem);
+    align-items:center;
+  }
+
+  .section-tag{
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+  }
+  #turtles .section-tag{color:var(--turtle-deep);}
+  #dogs .section-tag{color:var(--dog-deep);}
+  #penguins .section-tag{color:var(--penguin-deep);}
+
+  .text-block h2{
+    font-size:clamp(1.9rem, 3.6vw, 2.9rem);
+    font-weight:500;
+    margin:0.7rem 0 1.1rem;
+  }
+
+  .text-block .story{
+    font-size:1rem;
+    max-width:440px;
+    margin-bottom:1.6rem;
+  }
+
+  .text-block .meta-line{
+    display:flex;
+    align-items:center;
+    gap:0.7rem;
+    margin-bottom:2rem;
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+  }
+
+  .status-pill{
+    font-family:var(--font-mono);
+    font-size:0.6rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:0.3rem 0.6rem;
+    border-radius:100px;
+    border:1px solid var(--line);
+    white-space:nowrap;
+    color:var(--ink-soft);
+    background:var(--paper);
+  }
+
+  .stat-strip{
+    display:flex;
+    gap:2rem;
+    flex-wrap:wrap;
+    padding-top:1.5rem;
+    border-top:1px solid var(--line);
+  }
+  .stat{font-family:var(--font-mono);}
+  .stat .num{
+    display:block;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:1.7rem;
+    line-height:1;
+    color:var(--ink);
+  }
+  .stat .lbl{
+    display:block;
+    margin-top:0.3rem;
+    font-size:0.62rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  /* text lines fade/rise in, staggered */
+  .t-line{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .8s var(--ease-text), transform .8s var(--ease-text);
+  }
+  .animal-slide.in-view .t-line{opacity:1; transform:translateY(0);}
+  .text-block .t-line:nth-child(1){transition-delay:.05s;}
+  .text-block .t-line:nth-child(2){transition-delay:.16s;}
+  .text-block .t-line:nth-child(3){transition-delay:.27s;}
+  .text-block .t-line:nth-child(4){transition-delay:.38s;}
+  .text-block .t-line:nth-child(5){transition-delay:.49s;}
+
+  /* photo slides in from a side */
+  .image-block{position:relative;}
+
+  .photo-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:4/5;
+    border-radius:16px;
+    overflow:hidden;
+    background:var(--paper-soft);
+    box-shadow:0 30px 60px -30px rgba(35,40,33,0.25);
+    opacity:0;
+    transition:opacity 1s var(--ease-slide), transform 1s var(--ease-slide);
+  }
+
+  .animal-slide.img-right .photo-frame{transform:translateX(9vw);}
+  .animal-slide.img-left  .photo-frame{transform:translateX(-9vw);}
+  .animal-slide.in-view .photo-frame{opacity:1; transform:translateX(0);}
+
+  .photo-frame img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .photo-frame .media-placeholder{border-radius:16px;}
+
+  .caption-tag{
+    position:absolute;
+    left:1.1rem;
+    bottom:1.1rem;
+    z-index:2;
+    background:var(--paper);
+    border-radius:10px;
+    padding:0.7rem 1rem;
+    box-shadow:0 12px 24px -14px rgba(35,40,33,0.35);
+    opacity:0;
+    transform:translateY(10px);
+    transition:opacity .8s var(--ease-text) .5s, transform .8s var(--ease-text) .5s;
+  }
+  .animal-slide.in-view .caption-tag{opacity:1; transform:translateY(0);}
+
+  .caption-tag .name{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .caption-tag .meta{
+    font-family:var(--font-mono);
+    font-size:0.64rem;
+    color:var(--ink-soft);
+    margin-top:0.15rem;
+  }
+
+  /* ---------------- HELP / FOOTER ---------------- */
+
+  .help-slide{
+    background:var(--paper);
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+  }
+
+  .help-slide .section-tag{color:var(--coral);}
+
+  .help-slide h2{
+    font-size:clamp(2rem, 4.6vw, 3.4rem);
+    max-width:780px;
+    margin:0.7rem auto 1.3rem;
+    font-weight:500;
+  }
+
+  .help-slide p.lead{
+    max-width:520px;
+    margin:0 auto 2.4rem;
+  }
+
+  .help-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.1rem;
+    max-width:900px;
+    margin:0 auto 3rem;
+    text-align:left;
+  }
+
+  .help-item{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.4rem;
+  }
+
+  .help-item .n{
+    font-family:var(--font-mono);
+    font-size:0.66rem;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    display:block;
+    margin-bottom:0.6rem;
+  }
+
+  .help-item h3{
+    font-size:1.1rem;
+    margin-bottom:0.5rem;
+    font-weight:500;
+  }
+
+  .help-item p{font-size:0.86rem;}
+
+  footer{
+    margin-top:2.4rem;
+    padding-top:2rem;
+    border-top:1px solid var(--line);
+    width:100%;
+    max-width:900px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:1rem;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ---------------- RESPONSIVE ---------------- */
+
+  @media (max-width: 900px){
+    .animal-grid{grid-template-columns:1fr; gap:2rem;}
+    .image-block{order:-1;}
+    .animal-slide.img-right .photo-frame,
+    .animal-slide.img-left  .photo-frame{transform:translateY(30px);}
+    .animal-slide.in-view .photo-frame{transform:translateY(0);}
+    .help-grid{grid-template-columns:1fr;}
+    .top-nav{display:none;}
+    section.slide{padding:10vh 6vw;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal, .t-line, .photo-frame, .caption-tag{transition:none;opacity:1;transform:none;}
+    .scroll-cue::after{animation:none;}
+  }
+
+  :focus-visible{outline:2px solid var(--coral);outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="wordmark">Ark<span>animal rescue center</span></div>
+  <nav class="top-nav" id="topNav">
+    <button data-target="turtles">Turtles</button>
+    <button data-target="dogs">Dogs</button>
+    <button data-target="penguins">Penguins</button>
+    <button data-target="help">Help</button>
+  </nav>
+</div>
+
+<div class="dot-nav" id="dotNav">
+  <button data-target="hero" aria-label="Home"></button>
+  <button data-target="turtles" aria-label="Sea turtles"></button>
+  <button data-target="dogs" aria-label="Dogs"></button>
+  <button data-target="penguins" aria-label="Penguins"></button>
+  <button data-target="help" aria-label="Help"></button>
+</div>
+
+<div class="scroller" id="scroller">
+
+  <!-- ===================== HERO / SLIDE 1 ===================== -->
+  <section class="slide hero" id="hero">
+    <div class="media-frame">
+      <div class="media-placeholder"><span>images/hero-bg.png</span></div>
+      <img src="images/hero-bg.png" alt="" onerror="this.style.opacity=0">
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Ark · since 2016</div>
+      <h1>For those who can't ask for help themselves.</h1>
+      <p>From coastal waters to city streets — we rescue, treat, and rehome sea turtles, dogs, and penguins in need.</p>
+      <div class="cta-row">
+        <a class="btn btn-solid" href="#help" data-target="help">Donate</a>
+        <a class="btn btn-ghost" href="#turtles" data-target="turtles">See the stories</a>
+      </div>
+    </div>
+    <div class="scroll-cue">Scroll down</div>
+  </section>
+
+  <!-- ===================== TURTLES / SLIDE 2 — text left, photo right ===================== -->
+  <section class="slide animal-slide img-right" id="turtles">
+    <div class="media-frame">
+      <div class="media-placeholder"><span>images/section-bg-turtles.png</span></div>
+      <img src="turtlebg.webp" alt="" onerror="this.style.opacity=0">
+    </div>
+    <div class="animal-grid">
+      <div class="text-block">
+        <div class="section-tag t-line">01 · Sea Turtles</div>
+        <h2 class="t-line">Marina, back to open water</h2>
+        <p class="story t-line">Found tangled in a discarded net off Quiet Bay, Marina couldn't dive or feed herself. Six weeks of care later, she was strong enough to swim home on her own.</p>
+        <div class="meta-line t-line">
+          <span>Loggerhead turtle · Quiet Bay</span>
+          <span class="status-pill">Released</span>
+        </div>
+        <div class="stat-strip t-line">
+          <div class="stat"><span class="num">127</span><span class="lbl">rescued since 2019</span></div>
+          <div class="stat"><span class="num">94%</span><span class="lbl">released to the ocean</span></div>
+          <div class="stat"><span class="num">6</span><span class="lbl">turtle species</span></div>
+        </div>
+      </div>
+      <div class="image-block">
+        <div class="photo-frame">
+          <div class="media-placeholder"><span>images/turtle.png</span></div>
+          <img src="turtle.png" alt="Marina the sea turtle" onerror="this.style.opacity=0">
+        </div>
+        <div class="caption-tag">
+          <div class="name">Marina</div>
+          <div class="meta">Loggerhead · Quiet Bay</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DOGS / SLIDE 3 — photo left, text right ===================== -->
+  <section class="slide animal-slide img-left" id="dogs">
+    <div class="media-frame">
+      <div class="media-placeholder"><span>images/section-bg-dogs.png</span></div>
+      <img src="images/section-bg-dogs.png" alt="" onerror="this.style.opacity=0">
+    </div>
+    <div class="animal-grid">
+      <div class="image-block">
+        <div class="photo-frame">
+          <div class="media-placeholder"><span>images/dog.png</span></div>
+          <img src="images/dog.png" alt="Rex the dog" onerror="this.style.opacity=0">
+        </div>
+        <div class="caption-tag">
+          <div class="name">Rex</div>
+          <div class="meta">Mixed breed · 3 yrs</div>
+        </div>
+      </div>
+      <div class="text-block">
+        <div class="section-tag t-line">02 · Dogs</div>
+        <h2 class="t-line">Rex, learning to trust again</h2>
+        <p class="story t-line">Rex spent his first years on the street, wary of people and traffic. Months of patient care later, he's calm on a leash and ready for a family of his own.</p>
+        <div class="meta-line t-line">
+          <span>Mixed breed · 3 yrs</span>
+          <span class="status-pill">Looking for a home</span>
+        </div>
+        <div class="stat-strip t-line">
+          <div class="stat"><span class="num">340</span><span class="lbl">rehomed</span></div>
+          <div class="stat"><span class="num">58</span><span class="lbl">in care right now</span></div>
+          <div class="stat"><span class="num">3</span><span class="lbl">avg. age, years</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PENGUINS / SLIDE 4 — text left, photo right ===================== -->
+  <section class="slide animal-slide img-right" id="penguins">
+    <div class="media-frame">
+      <div class="media-placeholder"><span>images/section-bg-penguins.png</span></div>
+      <img src="images/section-bg-penguins.png" alt="" onerror="this.style.opacity=0">
+    </div>
+    <div class="animal-grid">
+      <div class="text-block">
+        <div class="section-tag t-line">03 · Penguins</div>
+        <h2 class="t-line">Ash, washed and returned home</h2>
+        <p class="story t-line">Ash came in coated in oil after a spill near Grey Bay, unable to stay waterproof or warm. After washing and weeks of monitoring, he returned to his colony.</p>
+        <div class="meta-line t-line">
+          <span>African penguin · Grey Bay</span>
+          <span class="status-pill">Released</span>
+        </div>
+        <div class="stat-strip t-line">
+          <div class="stat"><span class="num">63</span><span class="lbl">washed &amp; treated</span></div>
+          <div class="stat"><span class="num">4</span><span class="lbl">colonies monitored</span></div>
+          <div class="stat"><span class="num">89%</span><span class="lbl">returned to colony</span></div>
+        </div>
+      </div>
+      <div class="image-block">
+        <div class="photo-frame">
+          <div class="media-placeholder"><span>images/penguin.png</span></div>
+          <img src="images/penguin.png" alt="Ash the penguin" onerror="this.style.opacity=0">
+        </div>
+        <div class="caption-tag">
+          <div class="name">Ash</div>
+          <div class="meta">African penguin · Grey Bay</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HELP / SLIDE 5 ===================== -->
+  <section class="slide help-slide" id="help">
+    <div class="section-tag reveal">Get involved</div>
+    <h2 class="reveal">Help is needed every day — not just on camera</h2>
+    <p class="lead reveal">Regular giving, a one-time donation, or hands-on volunteering — every bit goes straight toward treatment, food, and rehabilitation.</p>
+
+    <div class="help-grid reveal">
+      <div class="help-item">
+        <span class="n">01</span>
+        <h3>One-time donation</h3>
+        <p>Any amount covers a specific need: food, medicine, transport.</p>
+      </div>
+      <div class="help-item">
+        <span class="n">02</span>
+        <h3>Monthly giving</h3>
+        <p>A steady contribution lets us plan treatment ahead, not case by case.</p>
+      </div>
+      <div class="help-item">
+        <span class="n">03</span>
+        <h3>Volunteering</h3>
+        <p>We need hands in foster care, at the clinic, and out on the coast.</p>
+      </div>
+    </div>
+
+    <div class="cta-row reveal" style="justify-content:center;">
+      <a class="btn btn-solid" href="#">Donate now</a>
+      <a class="btn btn-ghost" href="#">Become a volunteer</a>
+    </div>
+
+    <footer>
+      <span>© Ark, animal rescue center</span>
+      <span>hello@ark-animals.example · +1 (000) 000-0000</span>
+    </footer>
+  </section>
+
+</div>
+
+<script>
+  const scroller = document.getElementById('scroller');
+  const slides = Array.from(document.querySelectorAll('section.slide'));
+  const dotButtons = Array.from(document.querySelectorAll('#dotNav button'));
+  const topNavButtons = Array.from(document.querySelectorAll('#topNav button'));
+
+  function scrollToId(id){
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth'});
+  }
+
+  dotButtons.forEach(btn=>{
+    btn.addEventListener('click', ()=> scrollToId(btn.dataset.target));
+  });
+  topNavButtons.forEach(btn=>{
+    btn.addEventListener('click', ()=> scrollToId(btn.dataset.target));
+  });
+  document.querySelectorAll('a[data-target]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      scrollToId(a.dataset.target);
+    });
+  });
+
+  // active nav state
+  const navObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const id = entry.target.id;
+      if(entry.isIntersecting){
+        dotButtons.forEach(b=> b.classList.toggle('active', b.dataset.target===id));
+        topNavButtons.forEach(b=> b.classList.toggle('active', b.dataset.target===id));
+      }
+    });
+  }, {root:scroller, threshold:0.5});
+  slides.forEach(s=> navObserver.observe(s));
+
+  // simple fade/rise reveal (help slide)
+  const revealObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting) entry.target.classList.add('in');
+    });
+  }, {root:scroller, threshold:0.2});
+  document.querySelectorAll('.reveal').forEach(el=> revealObserver.observe(el));
+
+  // animal slides: slide-in photo + staggered text, replays each time the slide is entered
+  const animalObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, {root:scroller, threshold:0.45});
+  document.querySelectorAll('.animal-slide').forEach(el=> animalObserver.observe(el));
+</script>
+
+</body>
+</html>
