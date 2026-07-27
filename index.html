@@ -235,7 +235,7 @@
     background:linear-gradient(180deg, var(--turtle-tint) 0%, var(--paper) 60%);
   }
 
-  .hero .media-frame{opacity:0.5;}
+
 
   .hero-content{
     position:relative;
@@ -329,7 +329,7 @@
   #dogs{background:var(--dog-tint);}
   #penguins{background:var(--penguin-tint);}
 
-  .animal-slide .media-frame{opacity:0.35;}
+
 
   .animal-grid{
     position:relative;
@@ -434,10 +434,8 @@
     position:relative;
     width:100%;
     aspect-ratio:4/5;
-    border-radius:16px;
     overflow:hidden;
-    background:var(--paper-soft);
-    box-shadow:0 30px 60px -30px rgba(35,40,33,0.25);
+    background:transparent;
     opacity:0;
     transition:opacity 1s var(--ease-slide), transform 1s var(--ease-slide);
   }
@@ -454,33 +452,6 @@
     object-fit:cover;
   }
   .photo-frame .media-placeholder{border-radius:16px;}
-
-  .caption-tag{
-    position:absolute;
-    left:1.1rem;
-    bottom:1.1rem;
-    z-index:2;
-    background:var(--paper);
-    border-radius:10px;
-    padding:0.7rem 1rem;
-    box-shadow:0 12px 24px -14px rgba(35,40,33,0.35);
-    opacity:0;
-    transform:translateY(10px);
-    transition:opacity .8s var(--ease-text) .5s, transform .8s var(--ease-text) .5s;
-  }
-  .animal-slide.in-view .caption-tag{opacity:1; transform:translateY(0);}
-
-  .caption-tag .name{
-    font-family:var(--font-display);
-    font-weight:600;
-    font-size:0.95rem;
-  }
-  .caption-tag .meta{
-    font-family:var(--font-mono);
-    font-size:0.64rem;
-    color:var(--ink-soft);
-    margin-top:0.15rem;
-  }
 
   /* ---------------- HELP / FOOTER ---------------- */
 
@@ -631,12 +602,8 @@
     <div class="animal-grid">
       <div class="text-block">
         <div class="section-tag t-line">01 · Sea Turtles</div>
-        <h2 class="t-line">Marina, back to open water</h2>
-        <p class="story t-line">Found tangled in a discarded net off Quiet Bay, Marina couldn't dive or feed herself. Six weeks of care later, she was strong enough to swim home on her own.</p>
-        <div class="meta-line t-line">
-          <span>Loggerhead turtle · Quiet Bay</span>
-          <span class="status-pill">Released</span>
-        </div>
+        <h2 class="t-line">Rescued from nets and currents</h2>
+        <p class="story t-line">Sea turtles wash up entangled in discarded fishing nets or injured by boat strikes, unable to dive or feed. Our team frees them, treats their wounds, and works through weeks of rehabilitation before they're strong enough to return to open water.</p>
         <div class="stat-strip t-line">
           <div class="stat"><span class="num">127</span><span class="lbl">rescued since 2019</span></div>
           <div class="stat"><span class="num">94%</span><span class="lbl">released to the ocean</span></div>
@@ -646,11 +613,7 @@
       <div class="image-block">
         <div class="photo-frame">
           <div class="media-placeholder"><span>images/turtle.png</span></div>
-          <img src="178876031_10717796.png" alt="Marina the sea turtle" onerror="this.style.opacity=0">
-        </div>
-        <div class="caption-tag">
-          <div class="name">Marina</div>
-          <div class="meta">Loggerhead · Quiet Bay</div>
+          <img src="178876031_10717796.png" alt="Sea turtle" onerror="this.style.opacity=0">
         </div>
       </div>
     </div>
@@ -666,21 +629,13 @@
       <div class="image-block">
         <div class="photo-frame">
           <div class="media-placeholder"><span>images/dog.png</span></div>
-          <img src="images/dog.png" alt="Rex the dog" onerror="this.style.opacity=0">
-        </div>
-        <div class="caption-tag">
-          <div class="name">Rex</div>
-          <div class="meta">Mixed breed · 3 yrs</div>
+          <img src="images/dog.png" alt="Dog" onerror="this.style.opacity=0">
         </div>
       </div>
       <div class="text-block">
         <div class="section-tag t-line">02 · Dogs</div>
-        <h2 class="t-line">Rex, learning to trust again</h2>
-        <p class="story t-line">Rex spent his first years on the street, wary of people and traffic. Months of patient care later, he's calm on a leash and ready for a family of his own.</p>
-        <div class="meta-line t-line">
-          <span>Mixed breed · 3 yrs</span>
-          <span class="status-pill">Looking for a home</span>
-        </div>
+        <h2 class="t-line">From the street to a loving home</h2>
+        <p class="story t-line">Many of the dogs we take in have spent their whole lives on the street, wary of people and traffic. We give them medical care, patient socialization, and time to learn to trust again before matching them with a family suited to them.</p>
         <div class="stat-strip t-line">
           <div class="stat"><span class="num">340</span><span class="lbl">rehomed</span></div>
           <div class="stat"><span class="num">58</span><span class="lbl">in care right now</span></div>
@@ -699,12 +654,8 @@
     <div class="animal-grid">
       <div class="text-block">
         <div class="section-tag t-line">03 · Penguins</div>
-        <h2 class="t-line">Ash, washed and returned home</h2>
-        <p class="story t-line">Ash came in coated in oil after a spill near Grey Bay, unable to stay waterproof or warm. After washing and weeks of monitoring, he returned to his colony.</p>
-        <div class="meta-line t-line">
-          <span>African penguin · Grey Bay</span>
-          <span class="status-pill">Released</span>
-        </div>
+        <h2 class="t-line">From oil spills back to the colony</h2>
+        <p class="story t-line">Oil spills leave penguins unable to stay waterproof or warm, and injuries keep them from swimming and feeding. We wash and treat affected birds, monitor colony health, and return each one home once they're ready.</p>
         <div class="stat-strip t-line">
           <div class="stat"><span class="num">63</span><span class="lbl">washed &amp; treated</span></div>
           <div class="stat"><span class="num">4</span><span class="lbl">colonies monitored</span></div>
@@ -714,11 +665,7 @@
       <div class="image-block">
         <div class="photo-frame">
           <div class="media-placeholder"><span>images/penguin.png</span></div>
-          <img src="images/penguin.png" alt="Ash the penguin" onerror="this.style.opacity=0">
-        </div>
-        <div class="caption-tag">
-          <div class="name">Ash</div>
-          <div class="meta">African penguin · Grey Bay</div>
+          <img src="images/penguin.png" alt="Penguin" onerror="this.style.opacity=0">
         </div>
       </div>
     </div>
