@@ -35,6 +35,14 @@
   whole frame edge-to-edge and crop what doesn't fit, find
   ".photo-frame img" in the CSS below and change object-fit:contain
   to object-fit:cover.
+
+  ---------------------------------------------------------------
+  TEXT LEGIBILITY: this version adds a soft "scrim" panel behind
+  every block of text that sits on top of a background photo, plus
+  darker body copy and a subtle text-shadow on the hero headline.
+  If you swap in busier photos, you can deepen the scrim by editing
+  the --scrim-* variables below.
+  ---------------------------------------------------------------
 =====================================================================
 -->
 
@@ -42,24 +50,29 @@
   :root{
     --paper:#FAF8F3;
     --paper-soft:#F3F0E8;
-    --ink:#232821;
-    --ink-soft:#5B6259;
-    --line:rgba(35,40,33,0.12);
+    --ink:#20241E;
+    --ink-soft:#454B42;
+
+    --line:rgba(35,40,33,0.16);
 
     --turtle-tint:#E4F1EC;
     --turtle-line:#BFDDD2;
-    --turtle-deep:#5C9483;
+    --turtle-deep:#3F6E5E;
 
     --dog-tint:#FBEDDD;
     --dog-line:#EFD2A8;
-    --dog-deep:#C08A45;
+    --dog-deep:#96631F;
 
     --penguin-tint:#E6EEF2;
     --penguin-line:#C3D8E1;
-    --penguin-deep:#5C8496;
+    --penguin-deep:#3E6376;
 
     --coral:#E4785B;
     --coral-dark:#CF6647;
+
+    /* scrim behind text blocks that sit on top of photos */
+    --scrim-bg:rgba(250,248,243,0.86);
+    --scrim-blur:10px;
 
     --font-display:'Fraunces', serif;
     --font-body:'Work Sans', sans-serif;
@@ -105,7 +118,7 @@
     color:var(--ink);
   }
 
-  p{line-height:1.65; color:var(--ink-soft); font-weight:300;}
+  p{line-height:1.65; color:var(--ink-soft); font-weight:400;}
   a{color:inherit;text-decoration:none;}
 
   /* ---------------- TOP BAR ---------------- */
@@ -118,6 +131,7 @@
     align-items:center;
     justify-content:space-between;
     padding:1.5rem 2.4rem;
+    background:linear-gradient(180deg, rgba(250,248,243,0.9) 0%, rgba(250,248,243,0) 100%);
   }
 
   .wordmark{
@@ -234,6 +248,16 @@
     transition:opacity .3s ease;
   }
 
+  /* darkening veil over full-bleed background photos so any text
+     placed above them (hero, nav) stays readable regardless of
+     what photo gets dropped in */
+  .media-frame::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+  }
+
   /* ---------------- HERO ---------------- */
 
   .hero{
@@ -241,7 +265,9 @@
     background:linear-gradient(180deg, var(--turtle-tint) 0%, var(--paper) 60%);
   }
 
-
+  .hero .media-frame::after{
+    background:linear-gradient(0deg, rgba(20,24,18,0.55) 0%, rgba(20,24,18,0.15) 45%, rgba(20,24,18,0) 75%);
+  }
 
   .hero-content{
     position:relative;
@@ -270,12 +296,15 @@
     font-size:clamp(2.2rem, 5.2vw, 4.2rem);
     margin-bottom:1.3rem;
     font-weight:500;
+    text-shadow:0 2px 24px rgba(250,248,243,0.9), 0 1px 2px rgba(250,248,243,0.6);
   }
 
   .hero p{
     font-size:clamp(1rem, 1.2vw, 1.1rem);
     max-width:520px;
     margin-bottom:2.2rem;
+    color:var(--ink);
+    text-shadow:0 2px 16px rgba(250,248,243,0.85);
   }
 
   .cta-row{display:flex;gap:0.9rem;flex-wrap:wrap;align-items:center;}
@@ -299,8 +328,8 @@
   .btn-solid{background:var(--coral);color:#fff;}
   .btn-solid:hover{background:var(--coral-dark);}
 
-  .btn-ghost{border-color:var(--line);color:var(--ink);background:transparent;}
-  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-ghost{border-color:var(--ink);color:var(--ink);background:var(--paper);}
+  .btn-ghost:hover{border-color:var(--ink);background:var(--paper-soft);}
 
   .scroll-cue{
     position:absolute;
@@ -310,11 +339,12 @@
     font-family:var(--font-mono);
     font-size:0.65rem;
     letter-spacing:0.08em;
-    color:var(--ink-soft);
+    color:var(--ink);
     display:flex;
     align-items:center;
     gap:0.6rem;
     text-transform:uppercase;
+    text-shadow:0 2px 12px rgba(250,248,243,0.85);
   }
   .scroll-cue::after{
     content:"";
@@ -335,8 +365,6 @@
   #dogs{background:var(--dog-tint);}
   #penguins{background:var(--penguin-tint);}
 
-
-
   .animal-grid{
     position:relative;
     z-index:2;
@@ -349,11 +377,24 @@
     align-items:center;
   }
 
+  /* scrim panel behind each text block so it stays legible over
+     whatever section background photo is dropped in */
+  .text-block{
+    position:relative;
+    background:var(--scrim-bg);
+    -webkit-backdrop-filter:blur(var(--scrim-blur));
+    backdrop-filter:blur(var(--scrim-blur));
+    border-radius:18px;
+    padding:clamp(1.4rem, 2.6vw, 2.4rem);
+    box-shadow:0 1px 0 rgba(255,255,255,0.6) inset;
+  }
+
   .section-tag{
     font-family:var(--font-mono);
     font-size:0.7rem;
     letter-spacing:0.12em;
     text-transform:uppercase;
+    font-weight:500;
   }
   #turtles .section-tag{color:var(--turtle-deep);}
   #dogs .section-tag{color:var(--dog-deep);}
@@ -369,6 +410,7 @@
     font-size:1rem;
     max-width:440px;
     margin-bottom:1.6rem;
+    color:var(--ink-soft);
   }
 
   .text-block .meta-line{
@@ -470,7 +512,7 @@
     text-align:center;
   }
 
-  .help-slide .section-tag{color:var(--coral);}
+  .help-slide .section-tag{color:var(--coral-dark);}
 
   .help-slide h2{
     font-size:clamp(2rem, 4.6vw, 3.4rem);
@@ -497,6 +539,7 @@
     border:1px solid var(--line);
     border-radius:10px;
     padding:1.4rem;
+    background:var(--paper-soft);
   }
 
   .help-item .n{
