@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Ark — Animal Rescue Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,33 +18,32 @@
     --line:rgba(35,40,33,0.16);
 
     --turtle-tint:#E4F1EC;
-    --turtle-line:#BFDDD2;
     --turtle-deep:#3F6E5E;
 
     --dog-tint:#FBEDDD;
-    --dog-line:#EFD2A8;
     --dog-deep:#96631F;
 
     --penguin-tint:#E6EEF2;
-    --penguin-line:#C3D8E1;
     --penguin-deep:#3E6376;
 
     --coral:#E4785B;
     --coral-dark:#CF6647;
 
-    --scrim-bg:rgba(250,248,243,0.86);
+    --scrim-bg:rgba(250,248,243,0.88);
     --scrim-blur:10px;
 
     --font-display:'Fraunces', serif;
     --font-body:'Work Sans', sans-serif;
     --font-mono:'JetBrains Mono', monospace;
-
-    --ease-slide: cubic-bezier(.16,.84,.44,1);
-    --ease-text: cubic-bezier(.22,.61,.36,1);
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  
+  html{
+    scroll-behavior:smooth;
+    scroll-snap-type: y mandatory;
+    height: 100%;
+  }
 
   body{
     font-family:var(--font-body);
@@ -52,25 +51,22 @@
     color:var(--ink);
     background:var(--paper);
     overflow-x:hidden;
-  }
-
-  .scroller{
-    height:100vh;
-    height:100dvh;
-    overflow-y:scroll;
-    scroll-snap-type:y mandatory;
+    height: 100%;
+    overflow-y: scroll;
   }
 
   section.slide{
-    min-height:100vh;
-    min-height:100dvh;
-    scroll-snap-align:start;
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding:8vh 6vw;
-    overflow:hidden;
+    width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px 6vw 60px 6vw;
+    overflow: hidden;
   }
 
   h1,h2,h3{
@@ -93,8 +89,8 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:1.5rem 2.4rem;
-    background:linear-gradient(180deg, rgba(250,248,243,0.9) 0%, rgba(250,248,243,0) 100%);
+    padding:1.2rem 2.4rem;
+    background:linear-gradient(180deg, rgba(250,248,243,0.95) 0%, rgba(250,248,243,0) 100%);
   }
 
   .wordmark{
@@ -140,7 +136,6 @@
   }
 
   .top-nav button:hover,
-  .top-nav button:focus-visible,
   .top-nav button.active{
     color:var(--ink);
     border-color:var(--ink);
@@ -175,7 +170,7 @@
     transform:scale(1.3);
   }
 
-  /* ---------------- MEDIA / PLACEHOLDER SYSTEM ---------------- */
+  /* ---------------- MEDIA / BACKGROUNDS ---------------- */
 
   .media-frame{
     position:absolute;
@@ -211,8 +206,6 @@
     width:100%;
     height:100%;
     object-fit:cover;
-    opacity:1;
-    transition:opacity .3s ease;
   }
 
   /* ---------------- HERO ---------------- */
@@ -220,6 +213,7 @@
   .hero{
     justify-content:flex-end;
     background:linear-gradient(180deg, var(--turtle-tint) 0%, var(--paper) 60%);
+    padding-bottom: 80px;
   }
 
   .hero .media-frame::after{
@@ -227,12 +221,7 @@
     position:absolute;
     inset:0;
     pointer-events:none;
-    background:linear-gradient(
-      0deg,
-      rgba(20,24,18,0.65) 0%,
-      rgba(20,24,18,0.22) 45%,
-      rgba(20,24,18,0) 75%
-    );
+    background:linear-gradient(0deg, rgba(20,24,18,0.7) 0%, rgba(20,24,18,0.2) 50%, rgba(20,24,18,0) 80%);
   }
 
   .hero-content{
@@ -261,7 +250,7 @@
   }
 
   .hero h1{
-    font-size:clamp(2.2rem, 5.2vw, 4.2rem);
+    font-size:clamp(2.2rem, 5vw, 4.2rem);
     margin-bottom:1.3rem;
     font-weight:500;
     color:#fff;
@@ -290,10 +279,7 @@
     text-transform:uppercase;
     cursor:pointer;
     border:1px solid transparent;
-    transition:transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
   }
-
-  .btn:hover{transform:translateY(-2px);}
 
   .btn-solid{background:var(--coral);color:#fff;}
   .btn-solid:hover{background:var(--coral-dark);}
@@ -304,14 +290,9 @@
     background:var(--paper);
   }
 
-  .btn-ghost:hover{
-    border-color:var(--ink);
-    background:var(--paper-soft);
-  }
-
   .scroll-cue{
     position:absolute;
-    bottom:2.2rem;
+    bottom:2rem;
     left:6vw;
     z-index:2;
     font-family:var(--font-mono);
@@ -325,22 +306,7 @@
     text-shadow:0 2px 12px rgba(0,0,0,0.5);
   }
 
-  .scroll-cue::after{
-    content:"";
-    width:1px;
-    height:26px;
-    background:#fff;
-    animation:cue 1.8s ease-in-out infinite;
-  }
-
-  @keyframes cue{
-    0%{transform:scaleY(0);transform-origin:top;}
-    50%{transform:scaleY(1);transform-origin:top;}
-    51%{transform:scaleY(1);transform-origin:bottom;}
-    100%{transform:scaleY(0);transform-origin:bottom;}
-  }
-
-  /* ---------------- ANIMAL SPLIT SLIDES ---------------- */
+  /* ---------------- ANIMAL SLIDES ---------------- */
 
   #turtles{background:var(--turtle-tint);}
   #dogs{background:var(--dog-tint);}
@@ -354,7 +320,7 @@
     width:100%;
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:clamp(2rem, 6vw, 5.5rem);
+    gap:3rem;
     align-items:center;
   }
 
@@ -364,7 +330,7 @@
     -webkit-backdrop-filter:blur(var(--scrim-blur));
     backdrop-filter:blur(var(--scrim-blur));
     border-radius:18px;
-    padding:clamp(1.4rem, 2.6vw, 2.4rem);
+    padding:2rem;
     box-shadow:0 1px 0 rgba(255,255,255,0.6) inset;
   }
 
@@ -381,23 +347,22 @@
   #penguins .section-tag{color:var(--penguin-deep);}
 
   .text-block h2{
-    font-size:clamp(1.9rem, 3.6vw, 2.9rem);
+    font-size:clamp(1.8rem, 3vw, 2.6rem);
     font-weight:500;
-    margin:0.7rem 0 1.1rem;
+    margin:0.6rem 0 1rem;
   }
 
   .text-block .story{
-    font-size:1rem;
-    max-width:440px;
-    margin-bottom:1.6rem;
+    font-size:0.95rem;
+    margin-bottom:1.5rem;
     color:var(--ink-soft);
   }
 
   .stat-strip{
     display:flex;
-    gap:2rem;
+    gap:1.5rem;
     flex-wrap:wrap;
-    padding-top:1.5rem;
+    padding-top:1.2rem;
     border-top:1px solid var(--line);
   }
 
@@ -407,7 +372,7 @@
     display:block;
     font-family:var(--font-display);
     font-weight:600;
-    font-size:1.7rem;
+    font-size:1.5rem;
     line-height:1;
     color:var(--ink);
   }
@@ -415,28 +380,11 @@
   .stat .lbl{
     display:block;
     margin-top:0.3rem;
-    font-size:0.62rem;
+    font-size:0.6rem;
     letter-spacing:0.05em;
     text-transform:uppercase;
     color:var(--ink-soft);
   }
-
-  .t-line{
-    opacity:0;
-    transform:translateY(18px);
-    transition:opacity .8s var(--ease-text), transform .8s var(--ease-text);
-  }
-
-  .animal-slide.in-view .t-line{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-  .text-block .t-line:nth-child(1){transition-delay:.05s;}
-  .text-block .t-line:nth-child(2){transition-delay:.16s;}
-  .text-block .t-line:nth-child(3){transition-delay:.27s;}
-  .text-block .t-line:nth-child(4){transition-delay:.38s;}
-  .text-block .t-line:nth-child(5){transition-delay:.49s;}
 
   /* ---------------- DOGS GRID ---------------- */
 
@@ -447,31 +395,21 @@
     margin:0 auto;
     width:100%;
     display:grid;
-    grid-template-columns:0.85fr 1.1fr 0.7fr;
-    gap:clamp(1.4rem, 3vw, 2.8rem);
+    grid-template-columns:0.9fr 1fr 0.8fr;
+    gap:2rem;
     align-items:center;
-  }
-
-  .dogs-grid .text-block{
-    padding:clamp(1.2rem, 2vw, 1.8rem);
-  }
-
-  .dogs-grid .text-block.stats-block{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
   }
 
   .dogs-grid .stat-strip{
     flex-direction:column;
-    gap:1.3rem;
+    gap:1rem;
     border-top:none;
     padding-top:0;
   }
 
   .dogs-grid .stat{
     border-top:1px solid var(--line);
-    padding-top:0.9rem;
+    padding-top:0.8rem;
   }
 
   .dogs-grid .stat:first-child{
@@ -479,39 +417,16 @@
     padding-top:0;
   }
 
-  .dogs-grid .image-block .photo-frame{
-    height:90vh;
-    max-height:none;
-    min-height:700px;
-  }
-
-  /* ---------------- PHOTO FRAME & ANIMATIONS ---------------- */
+  /* ---------------- PHOTO FRAME ---------------- */
 
   .image-block{position:relative;}
 
   .photo-frame{
     position:relative;
     width:100%;
-    height:56vh;
-    max-height:540px;
-    min-height:320px;
-    overflow:hidden;
+    height:45vh;
+    min-height:280px;
     background:transparent;
-    opacity:0;
-    transition:opacity 1s var(--ease-slide), transform 1s var(--ease-slide);
-  }
-
-  .animal-slide.img-right .photo-frame{
-    transform:translateX(5vw);
-  }
-
-  .animal-slide.img-left .photo-frame{
-    transform:translateX(-5vw);
-  }
-
-  .animal-slide.in-view .photo-frame{
-    opacity:1;
-    transform:translateX(0);
   }
 
   .photo-frame img{
@@ -524,11 +439,7 @@
   }
 
   #dogs .photo-frame img{
-    transform:scale(2.5);
-  }
-
-  .photo-frame .media-placeholder{
-    border-radius:16px;
+    transform:scale(1.5);
   }
 
   /* ---------------- HELP / FOOTER ---------------- */
@@ -543,53 +454,53 @@
   .help-slide .section-tag{color:var(--coral-dark);}
 
   .help-slide h2{
-    font-size:clamp(2rem, 4.6vw, 3.4rem);
+    font-size:clamp(1.8rem, 4vw, 3rem);
     max-width:780px;
-    margin:0.7rem auto 1.3rem;
+    margin:0.6rem auto 1rem;
     font-weight:500;
   }
 
   .help-slide p.lead{
     max-width:520px;
-    margin:0 auto 2.4rem;
+    margin:0 auto 2rem;
   }
 
   .help-grid{
     display:grid;
     grid-template-columns:repeat(3, 1fr);
-    gap:1.1rem;
+    gap:1rem;
     max-width:900px;
-    margin:0 auto 3rem;
+    margin:0 auto 2rem;
     text-align:left;
   }
 
   .help-item{
     border:1px solid var(--line);
     border-radius:10px;
-    padding:1.4rem;
+    padding:1.2rem;
     background:var(--paper-soft);
   }
 
   .help-item .n{
     font-family:var(--font-mono);
-    font-size:0.66rem;
+    font-size:0.6rem;
     letter-spacing:0.06em;
     color:var(--ink-soft);
     display:block;
-    margin-bottom:0.6rem;
+    margin-bottom:0.4rem;
   }
 
   .help-item h3{
-    font-size:1.1rem;
-    margin-bottom:0.5rem;
+    font-size:1rem;
+    margin-bottom:0.4rem;
     font-weight:500;
   }
 
-  .help-item p{font-size:0.86rem;}
+  .help-item p{font-size:0.82rem;}
 
   footer{
-    margin-top:2.4rem;
-    padding-top:2rem;
+    margin-top:1.5rem;
+    padding-top:1.5rem;
     border-top:1px solid var(--line);
     width:100%;
     max-width:900px;
@@ -598,85 +509,42 @@
     flex-wrap:wrap;
     gap:1rem;
     font-family:var(--font-mono);
-    font-size:0.7rem;
+    font-size:0.65rem;
     letter-spacing:0.03em;
     color:var(--ink-soft);
   }
 
-  .reveal{
-    opacity:0;
-    transform:translateY(20px);
-    transition:opacity .7s ease, transform .7s ease;
-  }
-
-  .reveal.in{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-  /* ---------------- RESPONSIVE (MOBILE FIXES) ---------------- */
+  /* ---------------- RESPONSIVE / MOBILE FIXES ---------------- */
 
   @media (max-width: 900px){
-    .animal-grid{
+    .animal-grid, .dogs-grid, .help-grid{
       grid-template-columns:1fr;
       gap:1.5rem;
-    }
-
-    .dogs-grid{
-      grid-template-columns:1fr;
-    }
-
-    .dogs-grid .image-block .photo-frame{
-      height:35vh;
-      min-height:220px;
-    }
-
-    #dogs .photo-frame img{
-      transform:scale(1.2);
     }
 
     .image-block{order:-1;}
 
     .photo-frame{
-      height:32vh;
-      min-height:200px;
+      height:30vh;
+      min-height:220px;
     }
 
-    /* Fix mobile layout breaking transforms */
-    .animal-slide.img-right .photo-frame,
-    .animal-slide.img-left .photo-frame{
-      transform:translateY(15px);
-    }
-
-    .animal-slide.in-view .photo-frame{
-      transform:translateY(0);
-    }
-
-    .help-grid{
-      grid-template-columns:1fr;
+    #dogs .photo-frame img{
+      transform:scale(1.1);
     }
 
     .top-nav{
       display:none;
     }
 
-    section.slide{
-      padding:10vh 5vw;
-      justify-content: flex-start;
-      overflow-y: auto;
+    .dot-nav{
+      display:none;
     }
-    
-    .dot-nav {
-      display: none; /* Hide dots on small screens for better space usage */
-    }
-  }
 
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    .reveal, .t-line, .photo-frame{
-      transition:none;
-      opacity:1;
-      transform:none;
+    section.slide{
+      padding:90px 5vw 40px 5vw;
+      height: auto;
+      min-height: 100dvh;
     }
   }
 </style>
@@ -706,187 +574,164 @@
   <button data-target="help" aria-label="Help"></button>
 </div>
 
-<div class="scroller" id="scroller">
+<!-- HERO -->
+<section class="slide hero" id="hero">
+  <div class="media-frame">
+    <div class="media-placeholder"><span>images/hero-bg.png</span></div>
+    <img src="bg.jpeg" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Ark · since 2016</div>
+    <h1>For those who can't ask for help themselves.</h1>
+    <p>From coastal waters to city streets — we rescue, treat, and rehome sea turtles, dogs, and penguins in need.</p>
+    <div class="cta-row">
+      <a class="btn btn-solid" href="#help" data-target="help">Donate</a>
+      <a class="btn btn-ghost" href="#turtles" data-target="turtles">See the stories</a>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll down</div>
+</section>
 
-  <!-- HERO -->
-  <section class="slide hero" id="hero">
-    <div class="media-frame">
-      <div class="media-placeholder"><span>images/hero-bg.png</span></div>
-      <img src="bg.jpeg" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
-    </div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">Ark · since 2016</div>
-      <h1>For those who can't ask for help themselves.</h1>
-      <p>From coastal waters to city streets — we rescue, treat, and rehome sea turtles, dogs, and penguins in need.</p>
-      <div class="cta-row">
-        <a class="btn btn-solid" href="#help" data-target="help">Donate</a>
-        <a class="btn btn-ghost" href="#turtles" data-target="turtles">See the stories</a>
+<!-- TURTLES -->
+<section class="slide animal-slide" id="turtles">
+  <div class="media-frame">
+    <div class="media-placeholder"><span>images/section-bg-turtles.png</span></div>
+    <img src="turtlebg.webp" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+  </div>
+  <div class="animal-grid">
+    <div class="text-block">
+      <div class="section-tag">01 · Sea Turtles</div>
+      <h2>Rescued from nets and currents</h2>
+      <p class="story">Sea turtles wash up entangled in discarded fishing nets or injured by boat strikes, unable to dive or feed. Our team frees them, treats their wounds, and works through weeks of rehabilitation before they're strong enough to return to open water.</p>
+      <div class="stat-strip">
+        <div class="stat"><span class="num">127</span><span class="lbl">rescued since 2019</span></div>
+        <div class="stat"><span class="num">94%</span><span class="lbl">released to ocean</span></div>
+        <div class="stat"><span class="num">6</span><span class="lbl">turtle species</span></div>
       </div>
     </div>
-    <div class="scroll-cue">Scroll down</div>
-  </section>
+    <div class="image-block">
+      <div class="photo-frame">
+        <div class="media-placeholder"><span>images/turtle.png</span></div>
+        <img src="10717805.png" alt="Sea turtle" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- TURTLES -->
-  <section class="slide animal-slide img-right" id="turtles">
-    <div class="media-frame">
-      <div class="media-placeholder"><span>images/section-bg-turtles.png</span></div>
-      <img src="turtlebg.webp" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+<!-- DOGS -->
+<section class="slide animal-slide" id="dogs">
+  <div class="media-frame">
+    <div class="media-placeholder"><span>images/section-bg-dogs.png</span></div>
+    <img src="dogbg.png" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+  </div>
+  <div class="dogs-grid">
+    <div class="text-block">
+      <div class="section-tag">02 · Dogs</div>
+      <h2>From the street to a loving home</h2>
+      <p class="story">Many of the dogs we take in have spent their whole lives on the street, wary of people and traffic. We give them medical care, patient socialization, and time to learn to trust again.</p>
     </div>
-    <div class="animal-grid">
-      <div class="text-block">
-        <div class="section-tag t-line">01 · Sea Turtles</div>
-        <h2 class="t-line">Rescued from nets and currents</h2>
-        <p class="story t-line">Sea turtles wash up entangled in discarded fishing nets or injured by boat strikes, unable to dive or feed. Our team frees them, treats their wounds, and works through weeks of rehabilitation before they're strong enough to return to open water.</p>
-        <div class="stat-strip t-line">
-          <div class="stat"><span class="num">127</span><span class="lbl">rescued since 2019</span></div>
-          <div class="stat"><span class="num">94%</span><span class="lbl">released to ocean</span></div>
-          <div class="stat"><span class="num">6</span><span class="lbl">turtle species</span></div>
-        </div>
-      </div>
-      <div class="image-block">
-        <div class="photo-frame">
-          <div class="media-placeholder"><span>images/turtle.png</span></div>
-          <img src="10717805.png" alt="Sea turtle" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
-        </div>
+    <div class="image-block">
+      <div class="photo-frame">
+        <div class="media-placeholder"><span>images/dog.png</span></div>
+        <img src="dog.png" alt="Dog" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
       </div>
     </div>
-  </section>
+    <div class="text-block stats-block">
+      <div class="stat-strip">
+        <div class="stat"><span class="num">340</span><span class="lbl">rehomed</span></div>
+        <div class="stat"><span class="num">58</span><span class="lbl">in care now</span></div>
+        <div class="stat"><span class="num">3</span><span class="lbl">avg. age, years</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- DOGS -->
-  <section class="slide animal-slide" id="dogs">
-    <div class="media-frame">
-      <div class="media-placeholder"><span>images/section-bg-dogs.png</span></div>
-      <img src="dogbg.png" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
-    </div>
-    <div class="dogs-grid">
-      <div class="text-block">
-        <div class="section-tag t-line">02 · Dogs</div>
-        <h2 class="t-line">From the street to a loving home</h2>
-        <p class="story t-line">Many of the dogs we take in have spent their whole lives on the street, wary of people and traffic. We give them medical care, patient socialization, and time to learn to trust again.</p>
-      </div>
-      <div class="image-block">
-        <div class="photo-frame">
-          <div class="media-placeholder"><span>images/dog.png</span></div>
-          <img src="dog.png" alt="Dog" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
-        </div>
-      </div>
-      <div class="text-block stats-block">
-        <div class="stat-strip t-line">
-          <div class="stat"><span class="num">340</span><span class="lbl">rehomed</span></div>
-          <div class="stat"><span class="num">58</span><span class="lbl">in care now</span></div>
-          <div class="stat"><span class="num">3</span><span class="lbl">avg. age, years</span></div>
-        </div>
+<!-- PENGUINS -->
+<section class="slide animal-slide" id="penguins">
+  <div class="media-frame">
+    <div class="media-placeholder"><span>images/section-bg-penguins.png</span></div>
+    <img src="pinguinbg.png" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+  </div>
+  <div class="animal-grid">
+    <div class="text-block">
+      <div class="section-tag">03 · Penguins</div>
+      <h2>From oil spills back to the colony</h2>
+      <p class="story">Oil spills leave penguins unable to stay waterproof or warm. We wash and treat affected birds, monitor colony health, and return each one home once they're ready.</p>
+      <div class="stat-strip">
+        <div class="stat"><span class="num">63</span><span class="lbl">washed & treated</span></div>
+        <div class="stat"><span class="num">4</span><span class="lbl">colonies monitored</span></div>
+        <div class="stat"><span class="num">89%</span><span class="lbl">returned home</span></div>
       </div>
     </div>
-  </section>
+    <div class="image-block">
+      <div class="photo-frame">
+        <div class="media-placeholder"><span>images/penguin.png</span></div>
+        <img src="pinguin.png" alt="Penguin" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- PENGUINS -->
-  <section class="slide animal-slide img-right" id="penguins">
-    <div class="media-frame">
-      <div class="media-placeholder"><span>images/section-bg-penguins.png</span></div>
-      <img src="pinguinbg.png" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+<!-- HELP -->
+<section class="slide help-slide" id="help">
+  <div class="section-tag">Get involved</div>
+  <h2>Help is needed every day — not just on camera</h2>
+  <p class="lead">Regular giving, a one-time donation, or hands-on volunteering — every bit goes straight toward treatment, food, and rehabilitation.</p>
+  <div class="help-grid">
+    <div class="help-item">
+      <span class="n">01</span>
+      <h3>One-time donation</h3>
+      <p>Any amount covers a specific need: food, medicine, transport.</p>
     </div>
-    <div class="animal-grid">
-      <div class="text-block">
-        <div class="section-tag t-line">03 · Penguins</div>
-        <h2 class="t-line">From oil spills back to the colony</h2>
-        <p class="story t-line">Oil spills leave penguins unable to stay waterproof or warm. We wash and treat affected birds, monitor colony health, and return each one home once they're ready.</p>
-        <div class="stat-strip t-line">
-          <div class="stat"><span class="num">63</span><span class="lbl">washed & treated</span></div>
-          <div class="stat"><span class="num">4</span><span class="lbl">colonies monitored</span></div>
-          <div class="stat"><span class="num">89%</span><span class="lbl">returned home</span></div>
-        </div>
-      </div>
-      <div class="image-block">
-        <div class="photo-frame">
-          <div class="media-placeholder"><span>images/penguin.png</span></div>
-          <img src="pinguin.png" alt="Penguin" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
-        </div>
-      </div>
+    <div class="help-item">
+      <span class="n">02</span>
+      <h3>Monthly giving</h3>
+      <p>A steady contribution lets us plan treatment ahead, not case by case.</p>
     </div>
-  </section>
-
-  <!-- HELP -->
-  <section class="slide help-slide" id="help">
-    <div class="section-tag reveal">Get involved</div>
-    <h2 class="reveal">Help is needed every day — not just on camera</h2>
-    <p class="lead reveal">Regular giving, a one-time donation, or hands-on volunteering — every bit goes straight toward treatment, food, and rehabilitation.</p>
-    <div class="help-grid reveal">
-      <div class="help-item">
-        <span class="n">01</span>
-        <h3>One-time donation</h3>
-        <p>Any amount covers a specific need: food, medicine, transport.</p>
-      </div>
-      <div class="help-item">
-        <span class="n">02</span>
-        <h3>Monthly giving</h3>
-        <p>A steady contribution lets us plan treatment ahead, not case by case.</p>
-      </div>
-      <div class="help-item">
-        <span class="n">03</span>
-        <h3>Volunteering</h3>
-        <p>We need hands in foster care, at the clinic, and out on the coast.</p>
-      </div>
+    <div class="help-item">
+      <span class="n">03</span>
+      <h3>Volunteering</h3>
+      <p>We need hands in foster care, at the clinic, and out on the coast.</p>
     </div>
-    <div class="cta-row reveal" style="justify-content:center;">
-      <a class="btn btn-solid" href="#">Donate now</a>
-      <a class="btn btn-ghost" href="#">Become a volunteer</a>
-    </div>
-    <footer>
-      <span>© Ark, animal rescue center</span>
-      <span>hello@ark-animals.example · +1 (000) 000-0000</span>
-    </footer>
-  </section>
-
-</div>
+  </div>
+  <div class="cta-row" style="justify-content:center;">
+    <a class="btn btn-solid" href="#">Donate now</a>
+    <a class="btn btn-ghost" href="#">Become a volunteer</a>
+  </div>
+  <footer>
+    <span>© Ark, animal rescue center</span>
+    <span>hello@ark-animals.example · +1 (000) 000-0000</span>
+  </footer>
+</section>
 
 <script>
-  const scroller = document.getElementById('scroller');
-  const slides = Array.from(document.querySelectorAll('section.slide'));
-  const dotButtons = Array.from(document.querySelectorAll('#dotNav button'));
-  const topNavButtons = Array.from(document.querySelectorAll('#topNav button'));
-
   function scrollToId(id){
     const el = document.getElementById(id);
     if(el){ el.scrollIntoView({ behavior:'smooth' }); }
   }
 
-  dotButtons.forEach(btn => btn.addEventListener('click', () => scrollToId(btn.dataset.target)));
-  topNavButtons.forEach(btn => btn.addEventListener('click', () => scrollToId(btn.dataset.target)));
-  document.querySelectorAll('a[data-target]').forEach(a => {
-    a.addEventListener('click', (e) => {
+  document.querySelectorAll('button[data-target], a[data-target]').forEach(item => {
+    item.addEventListener('click', (e) => {
       e.preventDefault();
-      scrollToId(a.dataset.target);
+      scrollToId(item.dataset.target);
     });
   });
 
-  const navObserver = new IntersectionObserver((entries)=>{
+  const slides = document.querySelectorAll('section.slide');
+  const dotButtons = document.querySelectorAll('#dotNav button');
+  const topNavButtons = document.querySelectorAll('#topNav button');
+
+  const observer = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
-      const id = entry.target.id;
       if(entry.isIntersecting){
+        const id = entry.target.id;
         dotButtons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
         topNavButtons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
       }
     });
-  }, { root:scroller, threshold:0.5 });
+  }, { threshold: 0.5 });
 
-  slides.forEach(s => navObserver.observe(s));
-
-  const revealObserver = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){ entry.target.classList.add('in'); }
-    });
-  }, { root:scroller, threshold:0.2 });
-
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-  const animalObserver = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      entry.target.classList.toggle('in-view', entry.isIntersecting);
-    });
-  }, { root:scroller, threshold:0.45 });
-
-  document.querySelectorAll('.animal-slide').forEach(el => animalObserver.observe(el));
+  slides.forEach(s => observer.observe(s));
 </script>
 
 </body>
