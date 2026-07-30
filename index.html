@@ -519,7 +519,7 @@
     margin:0 auto;
     width:100%;
     display:grid;
-    grid-template-columns:0.85fr 1.1fr 0.7fr;
+    grid-template-columns:0.55fr 2.3fr 0.55fr;
     gap:clamp(1.4rem, 3vw, 2.8rem);
     align-items:center;
   }
@@ -543,13 +543,14 @@
   .dogs-grid .stat:first-child{border-top:none; padding-top:0;}
 
   .dogs-grid .image-block .photo-frame{
-    height:62vh;
-    max-height:620px;
+    height:88vh;
+    max-height:900px;
   }
 
   @media (max-width: 900px){
     .dogs-grid{grid-template-columns:1fr;}
     .dogs-grid .image-block{order:-1;}
+    .dogs-grid .image-block .photo-frame{height:48vh; max-height:460px;}
   }
 
   /* photo slides in from a side */
