@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,44 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-<!--
-=====================================================================
-  HOW TO ADD YOUR OWN IMAGES
-=====================================================================
-  Create a folder named "images" next to this index.html file and
-  drop in files with EXACTLY these names (png assumed — if you use
-  jpg/webp, just edit the matching src="images/..." path below):
-
-  BACKGROUNDS (subtle, optional):
-    images/hero-bg.png
-    images/section-bg-turtles.png
-    images/section-bg-dogs.png
-    images/section-bg-penguins.png
-
-  FEATURED ANIMAL PHOTOS (one large photo per slide):
-    images/turtle.png
-    images/dog.png
-    images/penguin.png
-
-  Until a file exists, a clean placeholder frame shows the expected
-  filename instead — nothing breaks.
-
-  Photos are scaled to fit fully inside the frame without cropping
-  (object-fit: contain). If you'd rather have the photo fill the
-  whole frame edge-to-edge and crop what doesn't fit, find
-  ".photo-frame img" in the CSS below and change object-fit:contain
-  to object-fit:cover.
-
-  ---------------------------------------------------------------
-  TEXT LEGIBILITY: this version adds a soft "scrim" panel behind
-  every block of text that sits on top of a background photo, plus
-  darker body copy and a subtle text-shadow on the hero headline.
-  If you swap in busier photos, you can deepen the scrim by editing
-  the --scrim-* variables below.
-  ---------------------------------------------------------------
-=====================================================================
--->
 
 <style>
   :root{
@@ -71,7 +32,6 @@
     --coral:#E4785B;
     --coral-dark:#CF6647;
 
-    /* scrim behind text blocks that sit on top of photos */
     --scrim-bg:rgba(250,248,243,0.86);
     --scrim-blur:10px;
 
@@ -96,12 +56,14 @@
 
   .scroller{
     height:100vh;
+    height:100dvh;
     overflow-y:scroll;
     scroll-snap-type:y mandatory;
   }
 
   section.slide{
     min-height:100vh;
+    min-height:100dvh;
     scroll-snap-align:start;
     position:relative;
     display:flex;
@@ -232,8 +194,7 @@
     font-size:0.7rem;
     letter-spacing:0.04em;
     color:var(--ink-soft);
-    background:
-      repeating-linear-gradient(45deg, rgba(35,40,33,0.035) 0 2px, transparent 2px 14px);
+    background: repeating-linear-gradient(45deg, rgba(35,40,33,0.035) 0 2px, transparent 2px 14px);
     border:1px dashed var(--line);
   }
 
@@ -254,16 +215,6 @@
     transition:opacity .3s ease;
   }
 
-  /* darkening veil over full-bleed background photos so any text
-     placed above them (hero, nav) stays readable regardless of
-     what photo gets dropped in */
-  .media-frame::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-  }
-
   /* ---------------- HERO ---------------- */
 
   .hero{
@@ -271,12 +222,11 @@
     background:linear-gradient(180deg, var(--turtle-tint) 0%, var(--paper) 60%);
   }
 
-  /*
-    ONLY HERO:
-    Slightly stronger darkening at the bottom so the white text
-    remains readable. No other slide backgrounds are changed.
-  */
   .hero .media-frame::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
     background:linear-gradient(
       0deg,
       rgba(20,24,18,0.65) 0%,
@@ -296,23 +246,17 @@
     font-size:0.72rem;
     letter-spacing:0.12em;
     text-transform:uppercase;
-
-    /* CHANGED: white */
     color:#fff;
-
     margin-bottom:1.2rem;
     display:flex;
     align-items:center;
     gap:0.6rem;
-
     text-shadow:0 2px 12px rgba(0,0,0,0.5);
   }
 
   .hero-eyebrow::before{
     content:"";
     width:26px;height:1px;
-
-    /* CHANGED: white */
     background:#fff;
   }
 
@@ -320,10 +264,7 @@
     font-size:clamp(2.2rem, 5.2vw, 4.2rem);
     margin-bottom:1.3rem;
     font-weight:500;
-
-    /* CHANGED: white */
     color:#fff;
-
     text-shadow:0 2px 20px rgba(0,0,0,0.45);
   }
 
@@ -331,10 +272,7 @@
     font-size:clamp(1rem, 1.2vw, 1.1rem);
     max-width:520px;
     margin-bottom:2.2rem;
-
-    /* CHANGED: white */
     color:#fff;
-
     text-shadow:0 2px 14px rgba(0,0,0,0.5);
   }
 
@@ -379,15 +317,11 @@
     font-family:var(--font-mono);
     font-size:0.65rem;
     letter-spacing:0.08em;
-
-    /* CHANGED: white */
     color:#fff;
-
     display:flex;
     align-items:center;
     gap:0.6rem;
     text-transform:uppercase;
-
     text-shadow:0 2px 12px rgba(0,0,0,0.5);
   }
 
@@ -395,10 +329,7 @@
     content:"";
     width:1px;
     height:26px;
-
-    /* CHANGED: white */
     background:#fff;
-
     animation:cue 1.8s ease-in-out infinite;
   }
 
@@ -426,45 +357,6 @@
     gap:clamp(2rem, 6vw, 5.5rem);
     align-items:center;
   }
-
-  /* dogs slide: single centered column instead of the left/right
-     split — photo takes the middle, text sits underneath, both
-     centered */
-
-  #dogs .animal-grid{
-    grid-template-columns:1fr;
-    justify-items:center;
-    text-align:center;
-    max-width:760px;
-    gap:clamp(1.6rem, 4vw, 2.6rem);
-  }
-
-  #dogs .image-block{
-    width:100%;
-    max-width:560px;
-  }
-
-  #dogs .photo-frame{
-    height:46vh;
-    max-height:440px;
-  }
-
-  #dogs .text-block{
-    max-width:620px;
-  }
-
-  #dogs .text-block .story{
-    max-width:520px;
-    margin-left:auto;
-    margin-right:auto;
-  }
-
-  #dogs .stat-strip{
-    justify-content:center;
-  }
-
-  /* scrim panel behind each text block so it stays legible over
-     whatever section background photo is dropped in */
 
   .text-block{
     position:relative;
@@ -501,30 +393,6 @@
     color:var(--ink-soft);
   }
 
-  .text-block .meta-line{
-    display:flex;
-    align-items:center;
-    gap:0.7rem;
-    margin-bottom:2rem;
-    font-family:var(--font-mono);
-    font-size:0.72rem;
-    letter-spacing:0.03em;
-    color:var(--ink-soft);
-  }
-
-  .status-pill{
-    font-family:var(--font-mono);
-    font-size:0.6rem;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-    padding:0.3rem 0.6rem;
-    border-radius:100px;
-    border:1px solid var(--line);
-    white-space:nowrap;
-    color:var(--ink-soft);
-    background:var(--paper);
-  }
-
   .stat-strip{
     display:flex;
     gap:2rem;
@@ -553,8 +421,6 @@
     color:var(--ink-soft);
   }
 
-  /* text lines fade/rise in, staggered */
-
   .t-line{
     opacity:0;
     transform:translateY(18px);
@@ -572,7 +438,7 @@
   .text-block .t-line:nth-child(4){transition-delay:.38s;}
   .text-block .t-line:nth-child(5){transition-delay:.49s;}
 
-  /* ---------------- DOGS: text left / photo center / stats right ---------------- */
+  /* ---------------- DOGS GRID ---------------- */
 
   .dogs-grid{
     position:relative;
@@ -619,12 +485,7 @@
     min-height:700px;
   }
 
-  @media (max-width: 900px){
-    .dogs-grid{grid-template-columns:1fr;}
-    .dogs-grid .image-block{order:-1;}
-  }
-
-  /* photo slides in from a side */
+  /* ---------------- PHOTO FRAME & ANIMATIONS ---------------- */
 
   .image-block{position:relative;}
 
@@ -634,18 +495,18 @@
     height:56vh;
     max-height:540px;
     min-height:320px;
-    overflow:visible;
+    overflow:hidden;
     background:transparent;
     opacity:0;
     transition:opacity 1s var(--ease-slide), transform 1s var(--ease-slide);
   }
 
   .animal-slide.img-right .photo-frame{
-    transform:translateX(9vw);
+    transform:translateX(5vw);
   }
 
   .animal-slide.img-left .photo-frame{
-    transform:translateX(-9vw);
+    transform:translateX(-5vw);
   }
 
   .animal-slide.in-view .photo-frame{
@@ -663,7 +524,7 @@
   }
 
   #dogs .photo-frame img{
-    transform:scale(4.0);
+    transform:scale(2.5);
   }
 
   .photo-frame .media-placeholder{
@@ -753,25 +614,38 @@
     transform:translateY(0);
   }
 
-  /* ---------------- RESPONSIVE ---------------- */
+  /* ---------------- RESPONSIVE (MOBILE FIXES) ---------------- */
 
   @media (max-width: 900px){
-
     .animal-grid{
       grid-template-columns:1fr;
-      gap:2rem;
+      gap:1.5rem;
+    }
+
+    .dogs-grid{
+      grid-template-columns:1fr;
+    }
+
+    .dogs-grid .image-block .photo-frame{
+      height:35vh;
+      min-height:220px;
+    }
+
+    #dogs .photo-frame img{
+      transform:scale(1.2);
     }
 
     .image-block{order:-1;}
 
     .photo-frame{
-      height:38vh;
-      min-height:240px;
+      height:32vh;
+      min-height:200px;
     }
 
+    /* Fix mobile layout breaking transforms */
     .animal-slide.img-right .photo-frame,
-    .animal-slide.img-left  .photo-frame{
-      transform:translateY(30px);
+    .animal-slide.img-left .photo-frame{
+      transform:translateY(15px);
     }
 
     .animal-slide.in-view .photo-frame{
@@ -787,34 +661,25 @@
     }
 
     section.slide{
-      padding:10vh 6vw;
+      padding:10vh 5vw;
+      justify-content: flex-start;
+      overflow-y: auto;
+    }
+    
+    .dot-nav {
+      display: none; /* Hide dots on small screens for better space usage */
     }
   }
 
   @media (prefers-reduced-motion: reduce){
-
     html{scroll-behavior:auto;}
-
-    .reveal,
-    .t-line,
-    .photo-frame,
-    .caption-tag{
+    .reveal, .t-line, .photo-frame{
       transition:none;
       opacity:1;
       transform:none;
     }
-
-    .scroll-cue::after{
-      animation:none;
-    }
-  }
-
-  :focus-visible{
-    outline:2px solid var(--coral);
-    outline-offset:2px;
   }
 </style>
-
 </head>
 
 <body>
@@ -843,592 +708,185 @@
 
 <div class="scroller" id="scroller">
 
-  <!-- ===================== HERO / SLIDE 1 ===================== -->
-
+  <!-- HERO -->
   <section class="slide hero" id="hero">
-
     <div class="media-frame">
-
-      <div class="media-placeholder">
-        <span>images/hero-bg.png</span>
-      </div>
-
-      <img
-        src="bg.jpeg"
-        alt=""
-        onload="this.previousElementSibling.style.display='none'"
-        onerror="this.style.opacity=0"
-      >
-
+      <div class="media-placeholder"><span>images/hero-bg.png</span></div>
+      <img src="bg.jpeg" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
     </div>
-
     <div class="hero-content">
-
-      <div class="hero-eyebrow">
-        Ark · since 2016
-      </div>
-
-      <h1>
-        For those who can't ask for help themselves.
-      </h1>
-
-      <p>
-        From coastal waters to city streets — we rescue, treat, and rehome
-        sea turtles, dogs, and penguins in need.
-      </p>
-
+      <div class="hero-eyebrow">Ark · since 2016</div>
+      <h1>For those who can't ask for help themselves.</h1>
+      <p>From coastal waters to city streets — we rescue, treat, and rehome sea turtles, dogs, and penguins in need.</p>
       <div class="cta-row">
-
-        <a
-          class="btn btn-solid"
-          href="#help"
-          data-target="help"
-        >
-          Donate
-        </a>
-
-        <a
-          class="btn btn-ghost"
-          href="#turtles"
-          data-target="turtles"
-        >
-          See the stories
-        </a>
-
+        <a class="btn btn-solid" href="#help" data-target="help">Donate</a>
+        <a class="btn btn-ghost" href="#turtles" data-target="turtles">See the stories</a>
       </div>
-
     </div>
-
-    <div class="scroll-cue">
-      Scroll down
-    </div>
-
+    <div class="scroll-cue">Scroll down</div>
   </section>
 
-
-  <!-- ===================== TURTLES / SLIDE 2 — text left, photo right ===================== -->
-
-  <section
-    class="slide animal-slide img-right"
-    id="turtles"
-  >
-
+  <!-- TURTLES -->
+  <section class="slide animal-slide img-right" id="turtles">
     <div class="media-frame">
-
-      <div class="media-placeholder">
-        <span>images/section-bg-turtles.png</span>
-      </div>
-
-      <img
-        src="turtlebg.webp"
-        alt=""
-        onload="this.previousElementSibling.style.display='none'"
-        onerror="this.style.opacity=0"
-      >
-
+      <div class="media-placeholder"><span>images/section-bg-turtles.png</span></div>
+      <img src="turtlebg.webp" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
     </div>
-
     <div class="animal-grid">
-
       <div class="text-block">
-
-        <div class="section-tag t-line">
-          01 · Sea Turtles
-        </div>
-
-        <h2 class="t-line">
-          Rescued from nets and currents
-        </h2>
-
-        <p class="story t-line">
-          Sea turtles wash up entangled in discarded fishing nets or injured
-          by boat strikes, unable to dive or feed. Our team frees them,
-          treats their wounds, and works through weeks of rehabilitation
-          before they're strong enough to return to open water.
-        </p>
-
+        <div class="section-tag t-line">01 · Sea Turtles</div>
+        <h2 class="t-line">Rescued from nets and currents</h2>
+        <p class="story t-line">Sea turtles wash up entangled in discarded fishing nets or injured by boat strikes, unable to dive or feed. Our team frees them, treats their wounds, and works through weeks of rehabilitation before they're strong enough to return to open water.</p>
         <div class="stat-strip t-line">
-
-          <div class="stat">
-            <span class="num">127</span>
-            <span class="lbl">rescued since 2019</span>
-          </div>
-
-          <div class="stat">
-            <span class="num">94%</span>
-            <span class="lbl">released to the ocean</span>
-          </div>
-
-          <div class="stat">
-            <span class="num">6</span>
-            <span class="lbl">turtle species</span>
-          </div>
-
+          <div class="stat"><span class="num">127</span><span class="lbl">rescued since 2019</span></div>
+          <div class="stat"><span class="num">94%</span><span class="lbl">released to ocean</span></div>
+          <div class="stat"><span class="num">6</span><span class="lbl">turtle species</span></div>
         </div>
-
       </div>
-
       <div class="image-block">
-
         <div class="photo-frame">
-
-          <div class="media-placeholder">
-            <span>images/turtle.png</span>
-          </div>
-
-          <img
-            src="10717805.png"
-            alt="Sea turtle"
-            onload="this.previousElementSibling.style.display='none'"
-            onerror="this.style.opacity=0"
-          >
-
+          <div class="media-placeholder"><span>images/turtle.png</span></div>
+          <img src="10717805.png" alt="Sea turtle" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
         </div>
-
       </div>
-
     </div>
-
   </section>
 
-
-  <!-- ===================== DOGS / SLIDE 3 — photo left, text right ===================== -->
-
-  <section
-    class="slide animal-slide"
-    id="dogs"
-  >
-
+  <!-- DOGS -->
+  <section class="slide animal-slide" id="dogs">
     <div class="media-frame">
-
-      <div class="media-placeholder">
-        <span>images/section-bg-dogs.png</span>
-      </div>
-
-      <img
-        src="dogbg.png"
-        alt=""
-        onload="this.previousElementSibling.style.display='none'"
-        onerror="this.style.opacity=0"
-      >
-
+      <div class="media-placeholder"><span>images/section-bg-dogs.png</span></div>
+      <img src="dogbg.png" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
     </div>
-
     <div class="dogs-grid">
-
       <div class="text-block">
-
-        <div class="section-tag t-line">
-          02 · Dogs
-        </div>
-
-        <h2 class="t-line">
-          From the street to a loving home
-        </h2>
-
-        <p class="story t-line">
-          Many of the dogs we take in have spent their whole lives on the
-          street, wary of people and traffic. We give them medical care,
-          patient socialization, and time to learn to trust again before
-          matching them with a family suited to them.
-        </p>
-
+        <div class="section-tag t-line">02 · Dogs</div>
+        <h2 class="t-line">From the street to a loving home</h2>
+        <p class="story t-line">Many of the dogs we take in have spent their whole lives on the street, wary of people and traffic. We give them medical care, patient socialization, and time to learn to trust again.</p>
       </div>
-
       <div class="image-block">
-
         <div class="photo-frame">
-
-          <div class="media-placeholder">
-            <span>images/dog.png</span>
-          </div>
-
-          <img
-            src="dog.png"
-            alt="Dog"
-            onload="this.previousElementSibling.style.display='none'"
-            onerror="this.style.opacity=0"
-          >
-
+          <div class="media-placeholder"><span>images/dog.png</span></div>
+          <img src="dog.png" alt="Dog" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
         </div>
-
       </div>
-
       <div class="text-block stats-block">
-
         <div class="stat-strip t-line">
-
-          <div class="stat">
-            <span class="num">340</span>
-            <span class="lbl">rehomed</span>
-          </div>
-
-          <div class="stat">
-            <span class="num">58</span>
-            <span class="lbl">in care right now</span>
-          </div>
-
-          <div class="stat">
-            <span class="num">3</span>
-            <span class="lbl">avg. age, years</span>
-          </div>
-
+          <div class="stat"><span class="num">340</span><span class="lbl">rehomed</span></div>
+          <div class="stat"><span class="num">58</span><span class="lbl">in care now</span></div>
+          <div class="stat"><span class="num">3</span><span class="lbl">avg. age, years</span></div>
         </div>
-
       </div>
-
     </div>
-
   </section>
 
-
-  <!-- ===================== PENGUINS / SLIDE 4 — text left, photo right ===================== -->
-
-  <section
-    class="slide animal-slide img-right"
-    id="penguins"
-  >
-
+  <!-- PENGUINS -->
+  <section class="slide animal-slide img-right" id="penguins">
     <div class="media-frame">
-
-      <div class="media-placeholder">
-        <span>images/section-bg-penguins.png</span>
-      </div>
-
-      <img
-        src="pinguinbg.png"
-        alt=""
-        onload="this.previousElementSibling.style.display='none'"
-        onerror="this.style.opacity=0"
-      >
-
+      <div class="media-placeholder"><span>images/section-bg-penguins.png</span></div>
+      <img src="pinguinbg.png" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
     </div>
-
     <div class="animal-grid">
-
       <div class="text-block">
-
-        <div class="section-tag t-line">
-          03 · Penguins
-        </div>
-
-        <h2 class="t-line">
-          From oil spills back to the colony
-        </h2>
-
-        <p class="story t-line">
-          Oil spills leave penguins unable to stay waterproof or warm,
-          and injuries keep them from swimming and feeding. We wash and
-          treat affected birds, monitor colony health, and return each one
-          home once they're ready.
-        </p>
-
+        <div class="section-tag t-line">03 · Penguins</div>
+        <h2 class="t-line">From oil spills back to the colony</h2>
+        <p class="story t-line">Oil spills leave penguins unable to stay waterproof or warm. We wash and treat affected birds, monitor colony health, and return each one home once they're ready.</p>
         <div class="stat-strip t-line">
-
-          <div class="stat">
-            <span class="num">63</span>
-            <span class="lbl">washed &amp; treated</span>
-          </div>
-
-          <div class="stat">
-            <span class="num">4</span>
-            <span class="lbl">colonies monitored</span>
-          </div>
-
-          <div class="stat">
-            <span class="num">89%</span>
-            <span class="lbl">returned to colony</span>
-          </div>
-
+          <div class="stat"><span class="num">63</span><span class="lbl">washed & treated</span></div>
+          <div class="stat"><span class="num">4</span><span class="lbl">colonies monitored</span></div>
+          <div class="stat"><span class="num">89%</span><span class="lbl">returned home</span></div>
         </div>
-
       </div>
-
       <div class="image-block">
-
         <div class="photo-frame">
-
-          <div class="media-placeholder">
-            <span>images/penguin.png</span>
-          </div>
-
-          <img
-            src="pinguin.png"
-            alt="Penguin"
-            onload="this.previousElementSibling.style.display='none'"
-            onerror="this.style.opacity=0"
-          >
-
+          <div class="media-placeholder"><span>images/penguin.png</span></div>
+          <img src="pinguin.png" alt="Penguin" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
         </div>
-
       </div>
-
     </div>
-
   </section>
 
-
-  <!-- ===================== HELP / SLIDE 5 ===================== -->
-
-  <section
-    class="slide help-slide"
-    id="help"
-  >
-
-    <div class="section-tag reveal">
-      Get involved
-    </div>
-
-    <h2 class="reveal">
-      Help is needed every day — not just on camera
-    </h2>
-
-    <p class="lead reveal">
-      Regular giving, a one-time donation, or hands-on volunteering —
-      every bit goes straight toward treatment, food, and rehabilitation.
-    </p>
-
+  <!-- HELP -->
+  <section class="slide help-slide" id="help">
+    <div class="section-tag reveal">Get involved</div>
+    <h2 class="reveal">Help is needed every day — not just on camera</h2>
+    <p class="lead reveal">Regular giving, a one-time donation, or hands-on volunteering — every bit goes straight toward treatment, food, and rehabilitation.</p>
     <div class="help-grid reveal">
-
       <div class="help-item">
-
         <span class="n">01</span>
-
-        <h3>
-          One-time donation
-        </h3>
-
-        <p>
-          Any amount covers a specific need: food, medicine, transport.
-        </p>
-
+        <h3>One-time donation</h3>
+        <p>Any amount covers a specific need: food, medicine, transport.</p>
       </div>
-
       <div class="help-item">
-
         <span class="n">02</span>
-
-        <h3>
-          Monthly giving
-        </h3>
-
-        <p>
-          A steady contribution lets us plan treatment ahead, not case by case.
-        </p>
-
+        <h3>Monthly giving</h3>
+        <p>A steady contribution lets us plan treatment ahead, not case by case.</p>
       </div>
-
       <div class="help-item">
-
         <span class="n">03</span>
-
-        <h3>
-          Volunteering
-        </h3>
-
-        <p>
-          We need hands in foster care, at the clinic, and out on the coast.
-        </p>
-
+        <h3>Volunteering</h3>
+        <p>We need hands in foster care, at the clinic, and out on the coast.</p>
       </div>
-
     </div>
-
-    <div
-      class="cta-row reveal"
-      style="justify-content:center;"
-    >
-
-      <a class="btn btn-solid" href="#">
-        Donate now
-      </a>
-
-      <a class="btn btn-ghost" href="#">
-        Become a volunteer
-      </a>
-
+    <div class="cta-row reveal" style="justify-content:center;">
+      <a class="btn btn-solid" href="#">Donate now</a>
+      <a class="btn btn-ghost" href="#">Become a volunteer</a>
     </div>
-
     <footer>
-
-      <span>
-        © Ark, animal rescue center
-      </span>
-
-      <span>
-        hello@ark-animals.example · +1 (000) 000-0000
-      </span>
-
+      <span>© Ark, animal rescue center</span>
+      <span>hello@ark-animals.example · +1 (000) 000-0000</span>
     </footer>
-
   </section>
 
 </div>
 
-
 <script>
-
   const scroller = document.getElementById('scroller');
-  const slides = Array.from(
-    document.querySelectorAll('section.slide')
-  );
-
-  const dotButtons = Array.from(
-    document.querySelectorAll('#dotNav button')
-  );
-
-  const topNavButtons = Array.from(
-    document.querySelectorAll('#topNav button')
-  );
-
+  const slides = Array.from(document.querySelectorAll('section.slide'));
+  const dotButtons = Array.from(document.querySelectorAll('#dotNav button'));
+  const topNavButtons = Array.from(document.querySelectorAll('#topNav button'));
 
   function scrollToId(id){
-
     const el = document.getElementById(id);
-
-    if(el){
-      el.scrollIntoView({
-        behavior:'smooth'
-      });
-    }
-
+    if(el){ el.scrollIntoView({ behavior:'smooth' }); }
   }
 
-
-  dotButtons.forEach(btn=>{
-
-    btn.addEventListener(
-      'click',
-      ()=> scrollToId(btn.dataset.target)
-    );
-
-  });
-
-
-  topNavButtons.forEach(btn=>{
-
-    btn.addEventListener(
-      'click',
-      ()=> scrollToId(btn.dataset.target)
-    );
-
-  });
-
-
-  document
-    .querySelectorAll('a[data-target]')
-    .forEach(a=>{
-
-      a.addEventListener('click', (e)=>{
-
-        e.preventDefault();
-
-        scrollToId(a.dataset.target);
-
-      });
-
+  dotButtons.forEach(btn => btn.addEventListener('click', () => scrollToId(btn.dataset.target)));
+  topNavButtons.forEach(btn => btn.addEventListener('click', () => scrollToId(btn.dataset.target)));
+  document.querySelectorAll('a[data-target]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      scrollToId(a.dataset.target);
     });
+  });
 
+  const navObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const id = entry.target.id;
+      if(entry.isIntersecting){
+        dotButtons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+        topNavButtons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      }
+    });
+  }, { root:scroller, threshold:0.5 });
 
-  // active nav state
+  slides.forEach(s => navObserver.observe(s));
 
-  const navObserver = new IntersectionObserver(
-    (entries)=>{
+  const revealObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.classList.add('in'); }
+    });
+  }, { root:scroller, threshold:0.2 });
 
-      entries.forEach(entry=>{
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        const id = entry.target.id;
+  const animalObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, { root:scroller, threshold:0.45 });
 
-        if(entry.isIntersecting){
-
-          dotButtons.forEach(
-            b=> b.classList.toggle(
-              'active',
-              b.dataset.target===id
-            )
-          );
-
-          topNavButtons.forEach(
-            b=> b.classList.toggle(
-              'active',
-              b.dataset.target===id
-            )
-          );
-
-        }
-
-      });
-
-    },
-    {
-      root:scroller,
-      threshold:0.5
-    }
-  );
-
-
-  slides.forEach(
-    s=> navObserver.observe(s)
-  );
-
-
-  // simple fade/rise reveal (help slide)
-
-  const revealObserver = new IntersectionObserver(
-    (entries)=>{
-
-      entries.forEach(entry=>{
-
-        if(entry.isIntersecting){
-          entry.target.classList.add('in');
-        }
-
-      });
-
-    },
-    {
-      root:scroller,
-      threshold:0.2
-    }
-  );
-
-
-  document
-    .querySelectorAll('.reveal')
-    .forEach(
-      el=> revealObserver.observe(el)
-    );
-
-
-  // animal slides: slide-in photo + staggered text,
-  // replays each time the slide is entered
-
-  const animalObserver = new IntersectionObserver(
-    (entries)=>{
-
-      entries.forEach(entry=>{
-
-        entry.target.classList.toggle(
-          'in-view',
-          entry.isIntersecting
-        );
-
-      });
-
-    },
-    {
-      root:scroller,
-      threshold:0.45
-    }
-  );
-
-
-  document
-    .querySelectorAll('.animal-slide')
-    .forEach(
-      el=> animalObserver.observe(el)
-    );
-
+  document.querySelectorAll('.animal-slide').forEach(el => animalObserver.observe(el));
 </script>
 
 </body>
