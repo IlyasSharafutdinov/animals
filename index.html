@@ -510,6 +510,48 @@
   .text-block .t-line:nth-child(4){transition-delay:.38s;}
   .text-block .t-line:nth-child(5){transition-delay:.49s;}
 
+  /* ---------------- DOGS: text left / photo center / stats right ---------------- */
+
+  .dogs-grid{
+    position:relative;
+    z-index:2;
+    max-width:1320px;
+    margin:0 auto;
+    width:100%;
+    display:grid;
+    grid-template-columns:0.85fr 1.1fr 0.7fr;
+    gap:clamp(1.4rem, 3vw, 2.8rem);
+    align-items:center;
+  }
+
+  .dogs-grid .text-block{padding:clamp(1.2rem, 2vw, 1.8rem);}
+
+  .dogs-grid .text-block.stats-block{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .dogs-grid .stat-strip{
+    flex-direction:column;
+    gap:1.3rem;
+    border-top:none;
+    padding-top:0;
+  }
+
+  .dogs-grid .stat{border-top:1px solid var(--line); padding-top:0.9rem;}
+  .dogs-grid .stat:first-child{border-top:none; padding-top:0;}
+
+  .dogs-grid .image-block .photo-frame{
+    height:62vh;
+    max-height:620px;
+  }
+
+  @media (max-width: 900px){
+    .dogs-grid{grid-template-columns:1fr;}
+    .dogs-grid .image-block{order:-1;}
+  }
+
   /* photo slides in from a side */
   .image-block{position:relative;}
 
@@ -707,22 +749,24 @@
   </section>
 
   <!-- ===================== DOGS / SLIDE 3 — photo left, text right ===================== -->
-  <section class="slide animal-slide img-left" id="dogs">
+  <section class="slide animal-slide" id="dogs">
     <div class="media-frame">
       <div class="media-placeholder"><span>images/section-bg-dogs.png</span></div>
       <img src="dogbg.png" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
     </div>
-    <div class="animal-grid">
+    <div class="dogs-grid">
+      <div class="text-block">
+        <div class="section-tag t-line">02 · Dogs</div>
+        <h2 class="t-line">From the street to a loving home</h2>
+        <p class="story t-line">Many of the dogs we take in have spent their whole lives on the street, wary of people and traffic. We give them medical care, patient socialization, and time to learn to trust again before matching them with a family suited to them.</p>
+      </div>
       <div class="image-block">
         <div class="photo-frame">
           <div class="media-placeholder"><span>images/dog.png</span></div>
           <img src="dog.png" alt="Dog" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
         </div>
       </div>
-      <div class="text-block">
-        <div class="section-tag t-line">02 · Dogs</div>
-        <h2 class="t-line">From the street to a loving home</h2>
-        <p class="story t-line">Many of the dogs we take in have spent their whole lives on the street, wary of people and traffic. We give them medical care, patient socialization, and time to learn to trust again before matching them with a family suited to them.</p>
+      <div class="text-block stats-block">
         <div class="stat-strip t-line">
           <div class="stat"><span class="num">340</span><span class="lbl">rehomed</span></div>
           <div class="stat"><span class="num">58</span><span class="lbl">in care right now</span></div>
