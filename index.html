@@ -377,6 +377,41 @@
     align-items:center;
   }
 
+  /* dogs slide: single centered column instead of the left/right
+     split — photo takes the middle, text sits underneath, both
+     centered */
+  #dogs .animal-grid{
+    grid-template-columns:1fr;
+    justify-items:center;
+    text-align:center;
+    max-width:760px;
+    gap:clamp(1.6rem, 4vw, 2.6rem);
+  }
+
+  #dogs .image-block{
+    width:100%;
+    max-width:560px;
+  }
+
+  #dogs .photo-frame{
+    height:46vh;
+    max-height:440px;
+  }
+
+  #dogs .text-block{
+    max-width:620px;
+  }
+
+  #dogs .text-block .story{
+    max-width:520px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  #dogs .stat-strip{
+    justify-content:center;
+  }
+
   /* scrim panel behind each text block so it stays legible over
      whatever section background photo is dropped in */
   .text-block{
@@ -675,13 +710,13 @@
   <section class="slide animal-slide img-left" id="dogs">
     <div class="media-frame">
       <div class="media-placeholder"><span>images/section-bg-dogs.png</span></div>
-      <img src="images/section-bg-dogs.png" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+      <img src="dogbg.jpg" alt="" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
     </div>
     <div class="animal-grid">
       <div class="image-block">
         <div class="photo-frame">
           <div class="media-placeholder"><span>images/dog.png</span></div>
-          <img src="images/dog.png" alt="Dog" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
+          <img src="dog.png" alt="Dog" onload="this.previousElementSibling.style.display='none'" onerror="this.style.opacity=0">
         </div>
       </div>
       <div class="text-block">
