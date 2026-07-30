@@ -517,20 +517,42 @@
   /* ---------------- RESPONSIVE / MOBILE FIXES ---------------- */
 
   @media (max-width: 900px){
+    /* Disable scroll snapping entirely on mobile for a smooth natural flow */
+    html{
+      scroll-snap-type: none;
+      height: auto;
+    }
+    body{
+      height: auto;
+      overflow-y: auto;
+    }
+
+    section.slide{
+      scroll-snap-align: none;
+      height: auto;
+      min-height: auto;
+      padding: 70px 5vw 60px 5vw;
+      gap: 2rem;
+    }
+
     .animal-grid, .dogs-grid, .help-grid{
       grid-template-columns:1fr;
       gap:1.5rem;
     }
 
-    .image-block{order:-1;}
+    /* Put the animal image nicely below or above text consistently */
+    .image-block{
+      order: unset; 
+      margin: 1rem 0;
+    }
 
     .photo-frame{
-      height:30vh;
-      min-height:220px;
+      height: 320px;
+      min-height: 280px;
     }
 
     #dogs .photo-frame img{
-      transform:scale(1.1);
+      transform: scale(1.15);
     }
 
     .top-nav{
@@ -539,12 +561,6 @@
 
     .dot-nav{
       display:none;
-    }
-
-    section.slide{
-      padding:90px 5vw 40px 5vw;
-      height: auto;
-      min-height: 100dvh;
     }
   }
 </style>
