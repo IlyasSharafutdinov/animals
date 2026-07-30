@@ -544,9 +544,10 @@
   .dogs-grid .stat:first-child{border-top:none; padding-top:0;}
 
   .dogs-grid .image-block .photo-frame{
-    height:75vh;
-    max-height:750px;
-  }
+  height:90vh;
+  max-height:none;
+  min-height:700px;
+}
 
   @media (max-width: 900px){
     .dogs-grid{grid-template-columns:1fr;}
@@ -562,7 +563,7 @@
     height:56vh;
     max-height:540px;
     min-height:320px;
-    overflow:hidden;
+    overflow:visible;
     background:transparent;
     opacity:0;
     transition:opacity 1s var(--ease-slide), transform 1s var(--ease-slide);
