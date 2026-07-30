@@ -9,6 +9,44 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+<!--
+=====================================================================
+  HOW TO ADD YOUR OWN IMAGES
+=====================================================================
+  Create a folder named "images" next to this index.html file and
+  drop in files with EXACTLY these names (png assumed — if you use
+  jpg/webp, just edit the matching src="images/..." path below):
+
+  BACKGROUNDS (subtle, optional):
+    images/hero-bg.png
+    images/section-bg-turtles.png
+    images/section-bg-dogs.png
+    images/section-bg-penguins.png
+
+  FEATURED ANIMAL PHOTOS (one large photo per slide):
+    images/turtle.png
+    images/dog.png
+    images/penguin.png
+
+  Until a file exists, a clean placeholder frame shows the expected
+  filename instead — nothing breaks.
+
+  Photos are scaled to fit fully inside the frame without cropping
+  (object-fit: contain). If you'd rather have the photo fill the
+  whole frame edge-to-edge and crop what doesn't fit, find
+  ".photo-frame img" in the CSS below and change object-fit:contain
+  to object-fit:cover.
+
+  ---------------------------------------------------------------
+  TEXT LEGIBILITY: this version adds a soft "scrim" panel behind
+  every block of text that sits on top of a background photo, plus
+  darker body copy and a subtle text-shadow on the hero headline.
+  If you swap in busier photos, you can deepen the scrim by editing
+  the --scrim-* variables below.
+  ---------------------------------------------------------------
+=====================================================================
+-->
+
 <style>
   :root{
     --paper:#FAF8F3;
@@ -33,6 +71,7 @@
     --coral:#E4785B;
     --coral-dark:#CF6647;
 
+    /* scrim behind text blocks that sit on top of photos */
     --scrim-bg:rgba(250,248,243,0.86);
     --scrim-blur:10px;
 
@@ -44,15 +83,8 @@
     --ease-text: cubic-bezier(.22,.61,.36,1);
   }
 
-  *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-  }
-
-  html{
-    scroll-behavior:smooth;
-  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
 
   body{
     font-family:var(--font-body);
@@ -87,34 +119,20 @@
     color:var(--ink);
   }
 
-  p{
-    line-height:1.65;
-    color:var(--ink-soft);
-    font-weight:400;
-  }
-
-  a{
-    color:inherit;
-    text-decoration:none;
-  }
+  p{line-height:1.65; color:var(--ink-soft); font-weight:400;}
+  a{color:inherit;text-decoration:none;}
 
   /* ---------------- TOP BAR ---------------- */
 
   .top-bar{
     position:fixed;
-    top:0;
-    left:0;
-    right:0;
+    top:0;left:0;right:0;
     z-index:50;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:1.5rem 2.4rem;
-    background:linear-gradient(
-      180deg,
-      rgba(250,248,243,0.9) 0%,
-      rgba(250,248,243,0) 100%
-    );
+    background:linear-gradient(180deg, rgba(250,248,243,0.9) 0%, rgba(250,248,243,0) 100%);
   }
 
   .wordmark{
@@ -180,17 +198,13 @@
   }
 
   .dot-nav button{
-    width:8px;
-    height:8px;
+    width:8px;height:8px;
     border-radius:50%;
     border:1.5px solid var(--ink-soft);
     background:transparent;
     cursor:pointer;
     padding:0;
-    transition:
-      transform .25s ease,
-      background .25s ease,
-      border-color .25s ease;
+    transition:transform .25s ease, background .25s ease, border-color .25s ease;
   }
 
   .dot-nav button.active{
@@ -219,11 +233,7 @@
     letter-spacing:0.04em;
     color:var(--ink-soft);
     background:
-      repeating-linear-gradient(
-        45deg,
-        rgba(35,40,33,0.035) 0 2px,
-        transparent 2px 14px
-      );
+      repeating-linear-gradient(45deg, rgba(35,40,33,0.035) 0 2px, transparent 2px 14px);
     border:1px dashed var(--line);
   }
 
@@ -244,6 +254,9 @@
     transition:opacity .3s ease;
   }
 
+  /* darkening veil over full-bleed background photos so any text
+     placed above them (hero, nav) stays readable regardless of
+     what photo gets dropped in */
   .media-frame::after{
     content:"";
     position:absolute;
@@ -255,22 +268,20 @@
 
   .hero{
     justify-content:flex-end;
-    background:
-      linear-gradient(
-        180deg,
-        var(--turtle-tint) 0%,
-        var(--paper) 60%
-      );
+    background:linear-gradient(180deg, var(--turtle-tint) 0%, var(--paper) 60%);
   }
 
-  /* Stronger dark gradient for hero readability */
+  /*
+    ONLY HERO:
+    Slightly stronger darkening at the bottom so the white text
+    remains readable. No other slide backgrounds are changed.
+  */
   .hero .media-frame::after{
     background:linear-gradient(
       0deg,
-      rgba(10,15,10,0.72) 0%,
-      rgba(10,15,10,0.45) 45%,
-      rgba(10,15,10,0.12) 75%,
-      rgba(10,15,10,0) 100%
+      rgba(20,24,18,0.65) 0%,
+      rgba(20,24,18,0.22) 45%,
+      rgba(20,24,18,0) 75%
     );
   }
 
@@ -285,18 +296,23 @@
     font-size:0.72rem;
     letter-spacing:0.12em;
     text-transform:uppercase;
+
+    /* CHANGED: white */
     color:#fff;
+
     margin-bottom:1.2rem;
     display:flex;
     align-items:center;
     gap:0.6rem;
+
     text-shadow:0 2px 12px rgba(0,0,0,0.5);
   }
 
   .hero-eyebrow::before{
     content:"";
-    width:26px;
-    height:1px;
+    width:26px;height:1px;
+
+    /* CHANGED: white */
     background:#fff;
   }
 
@@ -304,7 +320,10 @@
     font-size:clamp(2.2rem, 5.2vw, 4.2rem);
     margin-bottom:1.3rem;
     font-weight:500;
+
+    /* CHANGED: white */
     color:#fff;
+
     text-shadow:0 2px 20px rgba(0,0,0,0.45);
   }
 
@@ -312,16 +331,14 @@
     font-size:clamp(1rem, 1.2vw, 1.1rem);
     max-width:520px;
     margin-bottom:2.2rem;
+
+    /* CHANGED: white */
     color:#fff;
+
     text-shadow:0 2px 14px rgba(0,0,0,0.5);
   }
 
-  .cta-row{
-    display:flex;
-    gap:0.9rem;
-    flex-wrap:wrap;
-    align-items:center;
-  }
+  .cta-row{display:flex;gap:0.9rem;flex-wrap:wrap;align-items:center;}
 
   .btn{
     display:inline-flex;
@@ -335,25 +352,13 @@
     text-transform:uppercase;
     cursor:pointer;
     border:1px solid transparent;
-    transition:
-      transform .2s ease,
-      background .2s ease,
-      border-color .2s ease,
-      color .2s ease;
+    transition:transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
   }
 
-  .btn:hover{
-    transform:translateY(-2px);
-  }
+  .btn:hover{transform:translateY(-2px);}
 
-  .btn-solid{
-    background:var(--coral);
-    color:#fff;
-  }
-
-  .btn-solid:hover{
-    background:var(--coral-dark);
-  }
+  .btn-solid{background:var(--coral);color:#fff;}
+  .btn-solid:hover{background:var(--coral-dark);}
 
   .btn-ghost{
     border-color:var(--ink);
@@ -374,11 +379,15 @@
     font-family:var(--font-mono);
     font-size:0.65rem;
     letter-spacing:0.08em;
+
+    /* CHANGED: white */
     color:#fff;
+
     display:flex;
     align-items:center;
     gap:0.6rem;
     text-transform:uppercase;
+
     text-shadow:0 2px 12px rgba(0,0,0,0.5);
   }
 
@@ -386,45 +395,25 @@
     content:"";
     width:1px;
     height:26px;
+
+    /* CHANGED: white */
     background:#fff;
+
     animation:cue 1.8s ease-in-out infinite;
   }
 
   @keyframes cue{
-    0%{
-      transform:scaleY(0);
-      transform-origin:top;
-    }
-
-    50%{
-      transform:scaleY(1);
-      transform-origin:top;
-    }
-
-    51%{
-      transform:scaleY(1);
-      transform-origin:bottom;
-    }
-
-    100%{
-      transform:scaleY(0);
-      transform-origin:bottom;
-    }
+    0%{transform:scaleY(0);transform-origin:top;}
+    50%{transform:scaleY(1);transform-origin:top;}
+    51%{transform:scaleY(1);transform-origin:bottom;}
+    100%{transform:scaleY(0);transform-origin:bottom;}
   }
 
   /* ---------------- ANIMAL SPLIT SLIDES ---------------- */
 
-  #turtles{
-    background:var(--turtle-tint);
-  }
-
-  #dogs{
-    background:var(--dog-tint);
-  }
-
-  #penguins{
-    background:var(--penguin-tint);
-  }
+  #turtles{background:var(--turtle-tint);}
+  #dogs{background:var(--dog-tint);}
+  #penguins{background:var(--penguin-tint);}
 
   .animal-grid{
     position:relative;
@@ -438,7 +427,9 @@
     align-items:center;
   }
 
-  /* DOGS */
+  /* dogs slide: single centered column instead of the left/right
+     split — photo takes the middle, text sits underneath, both
+     centered */
 
   #dogs .animal-grid{
     grid-template-columns:1fr;
@@ -472,7 +463,8 @@
     justify-content:center;
   }
 
-  /* SCRIM */
+  /* scrim panel behind each text block so it stays legible over
+     whatever section background photo is dropped in */
 
   .text-block{
     position:relative;
@@ -492,17 +484,9 @@
     font-weight:500;
   }
 
-  #turtles .section-tag{
-    color:var(--turtle-deep);
-  }
-
-  #dogs .section-tag{
-    color:var(--dog-deep);
-  }
-
-  #penguins .section-tag{
-    color:var(--penguin-deep);
-  }
+  #turtles .section-tag{color:var(--turtle-deep);}
+  #dogs .section-tag{color:var(--dog-deep);}
+  #penguins .section-tag{color:var(--penguin-deep);}
 
   .text-block h2{
     font-size:clamp(1.9rem, 3.6vw, 2.9rem);
@@ -549,9 +533,7 @@
     border-top:1px solid var(--line);
   }
 
-  .stat{
-    font-family:var(--font-mono);
-  }
+  .stat{font-family:var(--font-mono);}
 
   .stat .num{
     display:block;
@@ -571,14 +553,12 @@
     color:var(--ink-soft);
   }
 
-  /* TEXT ANIMATION */
+  /* text lines fade/rise in, staggered */
 
   .t-line{
     opacity:0;
     transform:translateY(18px);
-    transition:
-      opacity .8s var(--ease-text),
-      transform .8s var(--ease-text);
+    transition:opacity .8s var(--ease-text), transform .8s var(--ease-text);
   }
 
   .animal-slide.in-view .t-line{
@@ -586,27 +566,13 @@
     transform:translateY(0);
   }
 
-  .text-block .t-line:nth-child(1){
-    transition-delay:.05s;
-  }
+  .text-block .t-line:nth-child(1){transition-delay:.05s;}
+  .text-block .t-line:nth-child(2){transition-delay:.16s;}
+  .text-block .t-line:nth-child(3){transition-delay:.27s;}
+  .text-block .t-line:nth-child(4){transition-delay:.38s;}
+  .text-block .t-line:nth-child(5){transition-delay:.49s;}
 
-  .text-block .t-line:nth-child(2){
-    transition-delay:.16s;
-  }
-
-  .text-block .t-line:nth-child(3){
-    transition-delay:.27s;
-  }
-
-  .text-block .t-line:nth-child(4){
-    transition-delay:.38s;
-  }
-
-  .text-block .t-line:nth-child(5){
-    transition-delay:.49s;
-  }
-
-  /* ---------------- DOGS GRID ---------------- */
+  /* ---------------- DOGS: text left / photo center / stats right ---------------- */
 
   .dogs-grid{
     position:relative;
@@ -653,21 +619,14 @@
     min-height:700px;
   }
 
-  @media (max-width:900px){
-    .dogs-grid{
-      grid-template-columns:1fr;
-    }
-
-    .dogs-grid .image-block{
-      order:-1;
-    }
+  @media (max-width: 900px){
+    .dogs-grid{grid-template-columns:1fr;}
+    .dogs-grid .image-block{order:-1;}
   }
 
-  /* ---------------- PHOTO ---------------- */
+  /* photo slides in from a side */
 
-  .image-block{
-    position:relative;
-  }
+  .image-block{position:relative;}
 
   .photo-frame{
     position:relative;
@@ -678,9 +637,7 @@
     overflow:visible;
     background:transparent;
     opacity:0;
-    transition:
-      opacity 1s var(--ease-slide),
-      transform 1s var(--ease-slide);
+    transition:opacity 1s var(--ease-slide), transform 1s var(--ease-slide);
   }
 
   .animal-slide.img-right .photo-frame{
@@ -722,9 +679,7 @@
     text-align:center;
   }
 
-  .help-slide .section-tag{
-    color:var(--coral-dark);
-  }
+  .help-slide .section-tag{color:var(--coral-dark);}
 
   .help-slide h2{
     font-size:clamp(2rem, 4.6vw, 3.4rem);
@@ -769,9 +724,7 @@
     font-weight:500;
   }
 
-  .help-item p{
-    font-size:0.86rem;
-  }
+  .help-item p{font-size:0.86rem;}
 
   footer{
     margin-top:2.4rem;
@@ -792,9 +745,7 @@
   .reveal{
     opacity:0;
     transform:translateY(20px);
-    transition:
-      opacity .7s ease,
-      transform .7s ease;
+    transition:opacity .7s ease, transform .7s ease;
   }
 
   .reveal.in{
@@ -804,16 +755,14 @@
 
   /* ---------------- RESPONSIVE ---------------- */
 
-  @media (max-width:900px){
+  @media (max-width: 900px){
 
     .animal-grid{
       grid-template-columns:1fr;
       gap:2rem;
     }
 
-    .image-block{
-      order:-1;
-    }
+    .image-block{order:-1;}
 
     .photo-frame{
       height:38vh;
@@ -821,7 +770,7 @@
     }
 
     .animal-slide.img-right .photo-frame,
-    .animal-slide.img-left .photo-frame{
+    .animal-slide.img-left  .photo-frame{
       transform:translateY(30px);
     }
 
@@ -842,11 +791,9 @@
     }
   }
 
-  @media (prefers-reduced-motion:reduce){
+  @media (prefers-reduced-motion: reduce){
 
-    html{
-      scroll-behavior:auto;
-    }
+    html{scroll-behavior:auto;}
 
     .reveal,
     .t-line,
@@ -901,6 +848,7 @@
   <section class="slide hero" id="hero">
 
     <div class="media-frame">
+
       <div class="media-placeholder">
         <span>images/hero-bg.png</span>
       </div>
@@ -911,6 +859,7 @@
         onload="this.previousElementSibling.style.display='none'"
         onerror="this.style.opacity=0"
       >
+
     </div>
 
     <div class="hero-content">
@@ -957,7 +906,7 @@
   </section>
 
 
-  <!-- ===================== TURTLES / SLIDE 2 ===================== -->
+  <!-- ===================== TURTLES / SLIDE 2 — text left, photo right ===================== -->
 
   <section
     class="slide animal-slide img-right"
@@ -1043,7 +992,7 @@
   </section>
 
 
-  <!-- ===================== DOGS / SLIDE 3 ===================== -->
+  <!-- ===================== DOGS / SLIDE 3 — photo left, text right ===================== -->
 
   <section
     class="slide animal-slide"
@@ -1133,7 +1082,7 @@
   </section>
 
 
-  <!-- ===================== PENGUINS / SLIDE 4 ===================== -->
+  <!-- ===================== PENGUINS / SLIDE 4 — text left, photo right ===================== -->
 
   <section
     class="slide animal-slide img-right"
@@ -1264,8 +1213,7 @@
         </h3>
 
         <p>
-          A steady contribution lets us plan treatment ahead,
-          not case by case.
+          A steady contribution lets us plan treatment ahead, not case by case.
         </p>
 
       </div>
@@ -1321,7 +1269,6 @@
 <script>
 
   const scroller = document.getElementById('scroller');
-
   const slides = Array.from(
     document.querySelectorAll('section.slide')
   );
@@ -1383,7 +1330,7 @@
     });
 
 
-  /* ACTIVE NAV STATE */
+  // active nav state
 
   const navObserver = new IntersectionObserver(
     (entries)=>{
@@ -1425,7 +1372,7 @@
   );
 
 
-  /* HELP SLIDE REVEAL */
+  // simple fade/rise reveal (help slide)
 
   const revealObserver = new IntersectionObserver(
     (entries)=>{
@@ -1433,9 +1380,7 @@
       entries.forEach(entry=>{
 
         if(entry.isIntersecting){
-
           entry.target.classList.add('in');
-
         }
 
       });
@@ -1455,7 +1400,8 @@
     );
 
 
-  /* ANIMAL SLIDES */
+  // animal slides: slide-in photo + staggered text,
+  // replays each time the slide is entered
 
   const animalObserver = new IntersectionObserver(
     (entries)=>{
